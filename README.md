@@ -18,6 +18,7 @@ This is a simple staic site that is also a progessive web app using the PRPL pat
 
 ## TODOs
 
-- [x] Setup Safari testing on Travis.
-- [x] Deploy all templates as demos.
+- [x] Home, Article and Contact page creation.
+- [ ] Get Description.
+- [ ] Get Assests (Icon/logo)
 - [ ] Update to latest [Material Web Components](https://github.com/material-components/material-components-web-components).

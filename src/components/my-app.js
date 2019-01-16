@@ -53,8 +53,8 @@ class MyApp extends connect(store)(LitElement) {
 
           --app-drawer-width: 256px;
 
-          --app-primary-color: #E91E63;
-          --app-secondary-color: #293237;
+          --app-primary-color: #283593;
+          --app-secondary-color: #1e88e5;
           --app-dark-text-color: var(--app-secondary-color);
           --app-light-text-color: white;
           --app-section-even-color: #f7f7f7;
@@ -66,7 +66,7 @@ class MyApp extends connect(store)(LitElement) {
 
           --app-drawer-background-color: var(--app-secondary-color);
           --app-drawer-text-color: var(--app-light-text-color);
-          --app-drawer-selected-color: #78909C;
+          --app-drawer-selected-color: #000;
         }
 
         app-header {
@@ -85,9 +85,9 @@ class MyApp extends connect(store)(LitElement) {
         }
 
         [main-title] {
-          font-family: 'Pacifico';
-          text-transform: lowercase;
+          font-family: 'Muli' sans-serif;
           font-size: 30px;
+          font-weight: 900;
           /* In the narrow layout, the toolbar is offset by the width of the
           drawer button, and the text looks not centered. Add a padding to
           match that button */
@@ -203,33 +203,34 @@ class MyApp extends connect(store)(LitElement) {
 
         <!-- This gets hidden on a small screen-->
         <nav class="toolbar-list">
-          <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
-          <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
-          <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
+          <a ?selected="${this._page === 'home-page'}" href="/home-page">Home</a>
+          <a ?selected="${this._page === 'article-page'}" href="/article-page">Articles</a>
+          <a ?selected="${this._page === 'contact-us'}" href="/contact-us">Contact</a>
         </nav>
       </app-header>
 
       <!-- Drawer content -->
       <app-drawer
           .opened="${this._drawerOpened}"
-          @opened-changed="${this._drawerOpenedChanged}">
+          @opened-changed="${this._drawerOpenedChanged}"
+          swipe-open>
         <nav class="drawer-list">
-          <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
-          <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
-          <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
+          <a ?selected="${this._page === 'home-page'}" href="/home-page">Home</a>
+          <a ?selected="${this._page === 'article-page'}" href="/article-page">Articles</a>
+          <a ?selected="${this._page === 'contact-us'}" href="/contact-us">Contact</a>
         </nav>
       </app-drawer>
 
       <!-- Main content -->
       <main role="main" class="main-content">
-        <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
-        <my-view2 class="page" ?active="${this._page === 'view2'}"></my-view2>
-        <my-view3 class="page" ?active="${this._page === 'view3'}"></my-view3>
+        <home-page class="page" ?active="${this._page === 'home-page'}"></home-page>
+        <article-page class="page" ?active="${this._page === 'article-page'}"></article-page>
+        <contact-us class="page" ?active="${this._page === 'contact-us'}"></contact-us>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
 
       <footer>
-        <p>Made with &hearts; by the Polymer team.</p>
+        <p>Made by the Maybery team</p>
       </footer>
 
       <snack-bar ?active="${this._snackbarOpened}">
