@@ -49,7 +49,7 @@ class MessageEmail extends connect(store)(LitElement) {
             }
         </style>
             <section>
-                <div id="inputArea" style="display:block;">
+                <div id="inputArea">
                     <paper-input required error-message="Please provide a first name" id="firstName" label="First Name" type="text"></paper-input>
                     <paper-input id="lastName" label="Last Name" type="text"></paper-input>
                     <paper-input required error-message="Email not valid" id="email" label="Email" type="email"></paper-input>

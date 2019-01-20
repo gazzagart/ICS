@@ -28,6 +28,7 @@ import {
 
 // These are the elements needed by this element.
 import '@polymer/app-layout/app-drawer/app-drawer.js';
+import '@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
@@ -188,6 +189,9 @@ class MyApp extends connect(store)(LitElement) {
             padding-right: 0px;
           }
         }
+        app-drawer-layout {
+          z-index: 5 !important;
+        }
       `
     ];
   }
@@ -211,16 +215,20 @@ class MyApp extends connect(store)(LitElement) {
       </app-header>
 
       <!-- Drawer content -->
-      <app-drawer
-          .opened="${this._drawerOpened}"
-          @opened-changed="${this._drawerOpenedChanged}"
-          swipe-open>
-        <nav class="drawer-list">
-          <a ?selected="${this._page === 'home-page'}" href="/home-page">Home</a>
-          <a ?selected="${this._page === 'article-page'}" href="/article-page">Articles</a>
-          <a ?selected="${this._page === 'contact-us'}" href="/contact-us">Contact</a>
-        </nav>
-      </app-drawer>
+      <app-drawer-layout>
+        <app-drawer
+            .opened="${this._drawerOpened}"
+            @opened-changed="${this._drawerOpenedChanged}"
+            swipe-open>
+            <div style="height: 100%; overflow: auto;">
+              <nav class="drawer-list">
+                <a ?selected="${this._page === 'home-page'}" href="/home-page">Home</a>
+                <a ?selected="${this._page === 'article-page'}" href="/article-page">Articles</a>
+                <a ?selected="${this._page === 'contact-us'}" href="/contact-us">Contact</a>
+              </nav>
+           </div>
+        </app-drawer>
+      </app-drawer-layout>
 
       <!-- Main content -->
       <main role="main" class="main-content">
