@@ -63,6 +63,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta property="og:site_name" content="my-app">
     <meta property="og:image" content="images/manifest/icon-144x144.png" />
 
+    <script src="https://www.gstatic.com/firebasejs/5.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.0/firebase-firestore.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyABs5PZo37bTWQ_aQvbdsqqQgA_kO-PJIo",
+        authDomain: "integral-commercial-services.firebaseapp.com",
+        databaseURL: "https://integral-commercial-services.firebaseio.com",
+        projectId: "integral-commercial-services",
+        storageBucket: "integral-commercial-services.appspot.com",
+        messagingSenderId: "893709511649"
+      };
+      firebase.initializeApp(config);
+    </script>
+
     <!-- Performance tip: hint to the browser to start the handshake for the fonts site -->
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <script>

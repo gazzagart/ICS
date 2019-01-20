@@ -31,6 +31,7 @@ import '@polymer/app-layout/app-drawer/app-drawer.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '@polymer/paper-button/paper-button.js';
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
 
@@ -233,7 +234,7 @@ class MyApp extends connect(store)(LitElement) {
         <p>Made by the Maybery team</p>
       </footer>
 
-      <snack-bar ?active="${this._snackbarOpened}">
+      <snack-bar ?active="${this._snackbarOpened}" colour="#1e88e5">
         You are now ${this._offline ? 'offline' : 'online'}.
       </snack-bar>
     `;
