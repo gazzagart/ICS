@@ -2,4 +2,16 @@ build/
 node_modules/
 test/integration/screenshots-current/
 _site/
+.README.md.swp
+.README_BASE_17744.md.swp
+.README_LOCAL_17744.md.swp
+.README_REMOTE_17744.md.swp
+.firebase/
+README_BACKUP_17744.md
+README_BASE_17744.md
+README_LOCAL_17744.md
+README_REMOTE_17744.md
+buildCommands.txt
+firestore.indexes.json
+functions/package-lock.json
 .DS_Store
