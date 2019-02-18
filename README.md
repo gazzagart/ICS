@@ -15,6 +15,16 @@ This is a simple staic site that is also a progessive web app using the PRPL pat
 - offline UI
 - simple routing solution
 - fast time-to-interactive and first-paint through the PRPL pattern
+<<<<<<< HEAD
+=======
+- easy deployment to prpl-server or static hosting
+- unit and integrating testing starting points
+- documentation about other advanced patterns.
+
+### 📖 Head over to the [documentation site](https://pwa-starter-kit.polymer-project.org/) for more details or check out [how to get started](https://pwa-starter-kit.polymer-project.org/setup)!
+
+![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/1369170/39715580-a1be5126-51e2-11e8-8440-96b07be03a3c.png)
+>>>>>>> 8dde11855060087b689186bc7b6c3b74446f62a2
 
 ## TODOs
 

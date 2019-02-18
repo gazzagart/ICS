@@ -35,6 +35,7 @@ class SnackBar extends LitElement {
           top: 100%;
           left: 0;
           right: 0;
+          z-index:103;
           padding: 12px;
           background-color: ${this.colour};
           color: white;
