@@ -9,8 +9,17 @@ import './snack-bar.js';
 // This element is connected to the Redux store.
 import { store } from '../store.js';
 
+// These are the shared styles needed by this element.
+import { SharedStyles } from './shared-styles.js';
+
 // TODO: Prevent scripting input (validate for undesired input)
 class MessageEmail extends connect(store)(LitElement) {
+
+    static get styles() {
+        return [
+          SharedStyles
+        ];
+      }
 
     static get properties() {
         return {
@@ -47,6 +56,12 @@ class MessageEmail extends connect(store)(LitElement) {
             paper-spinner {
                 --paper-spinner-stroke-width: 6px;
             }
+            @media only screen and (max-width: 768px) {
+            /* For mobile phones: */
+                #submitButton{
+                    float:right;
+                }
+            }
         </style>
             <section>
                 <div id="inputArea">
@@ -55,8 +70,8 @@ class MessageEmail extends connect(store)(LitElement) {
                     <paper-input required error-message="Email not valid" id="email" label="Email" type="email"></paper-input>
                     <paper-input required error-message="Please provide a subject" id="subject" label="Subject" type="text"></paper-input>
                     <paper-textarea required error-message="Please provide a message" id="message" label="Your Message"></paper-textarea>
-                    <br><br><br>
-                    <paper-button  @click="${this._sendMail}" class="indigo">Submit</paper-button>
+                    <br>
+                    <paper-button  @click="${this._sendMail}" id="submitButton" class="indigo">Submit</paper-button>
                 </div>
                 <div id="loader" style="display: none;text-align:center!important;margin-top:32px;">
                     <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>

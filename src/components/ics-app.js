@@ -191,6 +191,9 @@ class MyApp extends connect(store)(LitElement) {
         app-drawer-layout {
           z-index: 5 !important;
         }
+        app-header {
+          z-index: 2 !important;
+        }
       `
     ];
   }
@@ -225,7 +228,7 @@ class MyApp extends connect(store)(LitElement) {
                 <a ?selected="${this._page === 'article-page'}" href="/article-page">Articles</a>
                 <a ?selected="${this._page === 'contact-us'}" href="/contact-us">Contact</a>
               </nav>
-           </div>
+            </div>
         </app-drawer>
       </app-drawer-layout>
 
@@ -234,6 +237,7 @@ class MyApp extends connect(store)(LitElement) {
         <home-page class="page" ?active="${this._page === 'home-page'}"></home-page>
         <article-page class="page" ?active="${this._page === 'article-page'}"></article-page>
         <contact-us class="page" ?active="${this._page === 'contact-us'}"></contact-us>
+        <log-in class="page" ?active="${this._page === 'log-in'}"></log-in>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
 

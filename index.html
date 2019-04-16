@@ -13,9 +13,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <head>
     <meta charset="utf-8">
     <title>Integral Commercial Services</title>
-    <meta name="generator" content="ICS PWA site">
+    <meta name="generator" content="PWA-helper">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="description" content="Integral Commercial Services">
+    <meta name="description" content="Commercial legal services">
 
     <!--
       The `<base>` tag below is present to support two advanced deployment options:
@@ -45,14 +45,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="apple-mobile-web-app-title" content="ICS">
 
     <!-- Homescreen icons -->
-    <link rel="apple-touch-icon" href="images/manifest/icon-48x48.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/manifest/icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="96x96" href="images/manifest/icon-96x96.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="images/manifest/icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="images/manifest/icon-192x192.png">
+    <link rel="apple-touch-icon" href="images/manifest/ICSIcon-48x48.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/manifest/ICSIcon-72x72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="images/manifest/ICSIcon-96x96.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/manifest/ICSIcon-144x144.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="images/manifest/ICSIcon-192x192.png">
 
     <!-- Tile icon for Windows 8 (144x144 + tile color) -->
-    <meta name="msapplication-TileImage" content="images/manifest/icon-144x144.png">
+    <meta name="msapplication-TileImage" content="images/manifest/ICSIcon-144x144">
     <meta name="msapplication-TileColor" content="#3f51b5">
     <meta name="msapplication-tap-highlight" content="no">
 
@@ -61,10 +61,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="twitter:site" content="@username">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="my-app">
-    <meta property="og:image" content="images/manifest/icon-144x144.png" />
+    <meta property="og:image" content="images/manifest/ICSIcon-144x144" />
 
-    <script src="https://www.gstatic.com/firebasejs/5.8.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.8.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
     <script>
       // Initialize Firebase
       var config = {
@@ -177,7 +178,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </noscript>
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <!-- Include the polyfill -->
+    <script src="node_modules/web-animations-js/web-animations-next.min.js"></script>
     <!-- Built with love using PWA Starter Kit -->
-    <script type="module" src="src/components/my-app.js"></script>
+    <script type="module" src="src/components/ics-app.js"></script>
   </body>
 </html>
