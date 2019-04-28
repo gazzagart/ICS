@@ -1,6 +1,6 @@
 {
   "name": "integral-commercial-services",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "contributors": [
     "Gareth Maybery"
   ],
@@ -22,6 +22,8 @@
   "dependencies": {
     "@polymer/app-layout": "^3.0.2",
     "@polymer/paper-button": "^3.0.1",
+    "@polymer/paper-dialog": "^3.0.1",
+    "@polymer/paper-dialog-scrollable": "^3.0.1",
     "@polymer/paper-input": "^3.0.1",
     "@polymer/paper-spinner": "^3.0.1",
     "@polymer/polymer": "^3.1.0",

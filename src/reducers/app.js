@@ -22,6 +22,7 @@ const INITIAL_STATE = {
   offline: false,
   drawerOpened: false,
   snackbarOpened: false,
+  firstLoad: false,
 };
 
 const app = (state = INITIAL_STATE, action) => {

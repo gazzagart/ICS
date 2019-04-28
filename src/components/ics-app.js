@@ -1,13 +1,3 @@
-/**
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
 import { LitElement, html, css } from 'lit-element';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
@@ -34,6 +24,9 @@ import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
+import './about-us.js';
+import './contact-us.js';
+import './article-page.js';
 
 class MyApp extends connect(store)(LitElement) {
   static get properties() {
@@ -211,6 +204,7 @@ class MyApp extends connect(store)(LitElement) {
         <!-- This gets hidden on a small screen-->
         <nav class="toolbar-list">
           <a ?selected="${this._page === 'home-page'}" href="/home-page">Home</a>
+          <a ?selected="${this._page === 'about-us'}" href="/about-us">About Us</a>
           <a ?selected="${this._page === 'article-page'}" href="/article-page">Articles</a>
           <a ?selected="${this._page === 'contact-us'}" href="/contact-us">Contact</a>
         </nav>
@@ -225,6 +219,7 @@ class MyApp extends connect(store)(LitElement) {
             <div style="height: 100%; overflow: auto;">
               <nav class="drawer-list">
                 <a ?selected="${this._page === 'home-page'}" href="/home-page">Home</a>
+                <a ?selected="${this._page === 'about-us'}" href="/about-us">About Us</a>
                 <a ?selected="${this._page === 'article-page'}" href="/article-page">Articles</a>
                 <a ?selected="${this._page === 'contact-us'}" href="/contact-us">Contact</a>
               </nav>
@@ -235,9 +230,11 @@ class MyApp extends connect(store)(LitElement) {
       <!-- Main content -->
       <main role="main" class="main-content">
         <home-page class="page" ?active="${this._page === 'home-page'}"></home-page>
+        <about-us class="page" ?active="${this._page === 'about-us'}"></about-us>
         <article-page class="page" ?active="${this._page === 'article-page'}"></article-page>
         <contact-us class="page" ?active="${this._page === 'contact-us'}"></contact-us>
         <log-in class="page" ?active="${this._page === 'log-in'}"></log-in>
+        <article-input class="page" ?active="${this._page === 'article-input'}"></article-input>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
 

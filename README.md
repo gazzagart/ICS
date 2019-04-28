@@ -17,7 +17,10 @@
 - [ ] Add ability to add articles.
 - [ ] Add loader between page loads.
 - [ ] Add articles to home page.
+- [ ] Testing.
 ## Issues
 - [x] Fix condensed-title load.
 - [x] Fix app-header z-index issue.
 - [x] Fix Animation class issues --> Add a more structured animtion setting.
+- [x] Fix adding of images and meta data.
+- [ ] Find a way to increase the text size on the inputs.

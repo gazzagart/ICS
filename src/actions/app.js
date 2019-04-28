@@ -32,14 +32,20 @@ const loadPage = (page) => (dispatch) => {
     case 'home-page':
       import('../components/home-page.js').then((module) => {
         // Put code in here that you want to run every time when
-        // navigating to view1 after my-view1.js is loaded.
+        // navigating to home-page after home-page.js is loaded.
       });
+      break;
+    case 'about-us':
+      import('../components/about-us.js');
       break;
     case 'contact-us':
       import('../components/contact-us.js');
       break;
     case 'article-page':
       import('../components/article-page.js');
+      break;
+    case 'article-input':
+      import('../components/article-input.js');
       break;
     case 'log-in':
       import('../components/log-in.js');

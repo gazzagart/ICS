@@ -63,9 +63,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta property="og:site_name" content="my-app">
     <meta property="og:image" content="images/manifest/ICSIcon-144x144" />
 
-    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-storage.js"></script>
     <script>
       // Initialize Firebase
       var config = {
@@ -160,6 +161,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             url('../fonts/muli-v12-latin/muli-v12-latin-900.woff') format('woff'), /* Modern Browsers */
             url('../fonts/muli-v12-latin/muli-v12-latin-900.ttf') format('truetype'), /* Safari, Android, iOS */
             url('../fonts/muli-v12-latin/muli-v12-latin-900.svg#Muli') format('svg'); /* Legacy iOS */
+      }
+      @font-face {
+        font-family: 'ICSFont';
+        src: url('../fonts/pirulen.ttf');
       }
       body {
         margin: 0;

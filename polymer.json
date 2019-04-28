@@ -2,11 +2,14 @@
   "entrypoint": "index.html",
   "shell": "src/components/ics-app.js",
   "sources": [
-    "images/**/*"
+    "images/**/*",
+    "src/**/*"
   ],
   "extraDependencies": [
     "manifest.json",
     "node_modules/@webcomponents/webcomponentsjs/**",
+    "node_modules/web-animations-js/**",
+    "images/**",
     "push-manifest.json"
   ],
   "builds": [

@@ -26,6 +26,19 @@ class LoginPage extends PageViewElement {
     ];
   }
 
+  static get properties() {
+    return {
+        toastOpened: {type: Boolean},
+        colourSnack: {type: String}
+    };
+}
+
+  constructor () {
+    super();
+    this.toastOpened = false;
+    this.colourSnack = "";
+}
+
   render() {
     return html`
       <style>
@@ -55,17 +68,66 @@ class LoginPage extends PageViewElement {
                     <paper-input required error-message="Email not valid" id="email" label="Email" type="email"></paper-input>
                     <paper-input required error-message="Please provide a password" id="password" label="Password" type="password"></paper-input>
                     <br>
-                    <paper-button  @click="${this._sendMail}" id="submitButton" class="indigo">Login</paper-button>
+                    <paper-button  @click="${this._logIn}" id="submitButton" class="indigo">Login</paper-button>
                 </div>
                 <div id="loader" style="display: none;text-align:center!important;margin-top:32px;">
                     <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
                 </div>
             </section>
             <snack-bar ?active="${this.toastOpened}" colour="${this.colourSnack}">
-                Your message was ${this.sent ? 'sent' : 'not sent: please try again'}.
+                You are ${this.loggedIn ? 'logged in' : 'not logged in: please try again'}.
             </snack-bar>
     `;
   }
+
+    _logIn() {
+        var email = this.shadowRoot.querySelector("#email");
+        var password = this.shadowRoot.querySelector("#password");
+        function validateSignUp () {
+            const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            email.validate();
+            password.validate();
+            if(password.value == null || password.value == undefined || password.value == "") {
+                password.focus();
+                return false;
+            } else if(!email.value.match(mailformat)) {
+                email.focus();
+                return false;
+            } else {
+                return true;
+            }
+        }
+        if(validateSignUp()) {
+            this.shadowRoot.querySelector("#inputArea").style.display = "none";
+            this.shadowRoot.querySelector("#loader").style.display = "block";
+            this.email = email.value.toString();
+            this.password = password.value.toString();
+            // Now use firebase log in
+            firebase.auth().signInWithEmailAndPassword(email.value, password.value)
+            .then(e => {
+                this.shadowRoot.querySelector("#inputArea").style.display = "block";
+                this.shadowRoot.querySelector("#loader").style.display = "none";
+                email.value = "";
+                password.value = "";
+                this.colourSnack = "#4caf50";
+                this.loggedIn = true;
+                this.toastOpened = true;
+                setTimeout(() => {this.toastOpened = false;window.location.href='/article-input';}, 2000);
+            }).catch(error => {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.error("Error Code: ", errorCode);
+                console.error("Error Message: ", errorMessage);
+                this.shadowRoot.querySelector("#inputArea").style.display = "block";
+                this.shadowRoot.querySelector("#loader").style.display = "none";
+                this.colourSnack = "#f44336";
+                this.loggedIn = false;
+                this.toastOpened = true;
+                setTimeout(() => {this.toastOpened = false;}, 2000);
+            });
+        }
+    }
 }
 
 window.customElements.define('log-in', LoginPage);
