@@ -24,9 +24,6 @@ import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
-import './about-us.js';
-import './contact-us.js';
-import './article-page.js';
 
 class MyApp extends connect(store)(LitElement) {
   static get properties() {
@@ -79,7 +76,7 @@ class MyApp extends connect(store)(LitElement) {
         }
 
         [main-title] {
-          font-family: 'Muli' sans-serif;
+          font-family: 'ICSFont';
           font-size: 30px;
           font-weight: 900;
           /* In the narrow layout, the toolbar is offset by the width of the
@@ -239,7 +236,7 @@ class MyApp extends connect(store)(LitElement) {
       </main>
 
       <footer>
-        <p>Made by the Maybery team</p>
+        <p><span class="w3-large" style="font-family: 'ICSFont';">I N T E G R A L&nbsp;&nbsp;&nbsp;</span> Professional service, excellent results.</p>
       </footer>
 
       <snack-bar ?active="${this._snackbarOpened}" colour="#1e88e5">

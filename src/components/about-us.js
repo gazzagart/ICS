@@ -42,24 +42,28 @@ constructor () {
     </style>
 
     <section>
-        <h2>About Us</h2>
+        <h2 class="w3-animate-right">About Us</h2>
     </section>
-    <section>
+    <section class="w3-animate-left">
     <p class="w3-large">
         Integral Company Services provides expert legal and compliance services to companies. As a business owner, legal compliance is one of your company’s many concerns.
         Unfortunately, many companies are not aware of the many laws and regulations with which they must comply, and the penalties for non-compliance can be significant. Our
         experience in labour and commercial law enable us to provide excellent service and advice to your company, enabling you to focus on growth with the peace of mind knowing that
         your compliance concerns are covered.
     </p>
+    <p class="w3-large">
+        We are also backed by commercial and litigation attorneys, allowing us to offer your company debt
+        collection and litigation (court) services.
+    </p>
     </section>
     <section>
-        <h2>Expertise</h2>
+        <h2 class="w3-animate-top">Expertise</h2>
     </section>
     <div id="loader" style="text-align:center!important;margin-top:32px;">
         <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
     </div>
     <!-- START OF CARDS -->
-        <div id="cardRegion" style="display:none; padding:32px;">
+        <div id="cardRegion" class="w3-animate-opacity" style="display:none; padding:32px;">
             <div class="w3-margin w3-row-padding w3-section w3-stretch w3-hide-medium">
             <!-- START OF FIRST ROW LARGE AND SMALL -->
                 <div class="w3-container w3-col l4 s12 w3-margin-bottom">
@@ -331,13 +335,11 @@ constructor () {
             ele.onload = () => {
                 this.numOfPics++;
                 var mediumPics = this.shadowRoot.querySelectorAll('.' + storageName + 'Jpg');
-                console.log('storageName',storageName);
                 mediumPics.forEach(element => {
                     element.src = url;
                 });
                 var imgData = this._getBase64Image(ele);
                 localStorage.setItem(storageName + 'Image', imgData);
-                console.log(this.numOfPics);
                 if (this.numOfPics == 6) {
                     setTimeout(() => {
                         this.shadowRoot.querySelector("#loader").style.display = "none";

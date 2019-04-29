@@ -14,7 +14,7 @@
 - [x] Remove irrelevant Redux.
 - [x] Add description of app.
 - [x] Add Firebase to app.
-- [ ] Add ability to add articles.
+- [x] Add ability to add articles.
 - [ ] Add loader between page loads.
 - [ ] Add articles to home page.
 - [ ] Testing.
@@ -23,4 +23,8 @@
 - [x] Fix app-header z-index issue.
 - [x] Fix Animation class issues --> Add a more structured animtion setting.
 - [x] Fix adding of images and meta data.
+- [x] Fix articles on small screen.
+- [x] Loading of font.
+- [x] Change icons.
+- [ ] Fix the responsiveness of the cards. When we change the size of the page, then change to another page with cards, the cards don't resize.
 - [ ] Find a way to increase the text size on the inputs.
