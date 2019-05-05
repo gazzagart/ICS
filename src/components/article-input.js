@@ -95,12 +95,12 @@ constructor () {
       </div>
       <!-- End of articles -->
       <!-- INPUT DIALOG -->
-      <paper-dialog modal id="articleInput" entry-animation="scale-up-animation" exit-animation="fade-out-animation" style="border-radius: 16px;padding-bottom: 500px;">
+      <paper-dialog modal id="articleInput" entry-animation="scale-up-animation" exit-animation="fade-out-animation" style="border-radius: 16px;overflow: auto;padding-bottom:500px;">
         <h2>Header</h2>
           <div id="inputArea">
               <paper-input required error-message="Please provide a Title" id="titleInput" label="Title" type="text"></paper-input>
-              <paper-input id="subTitleInput" class="big-placeholder big-label" label="Sub Title" type="text"></paper-input>
-              <paper-textarea required error-message="Please provide a body" id="bodyInput" label="Body"></paper-textarea>
+              <paper-input id="subTitleInput" label="Sub Title" type="text"></paper-input>
+              <paper-textarea  on-value-changed="${this._test}" required error-message="Please provide a body" id="bodyInput" label="Body"></paper-textarea>
               <br>
               <paper-button raised  @click="${this._addImage}" id="addImageButton" class="w3-indigo">add image</paper-button>
               <drag-drop id="dragDrop" style="display:none;"></drag-drop>
@@ -174,6 +174,10 @@ constructor () {
     });
       this.shadowRoot.querySelector('#articles').style.display = "block";
       this.shadowRoot.querySelector('#loader').style.display = "none";
+  }
+
+  _test () {
+    console.log("go g");
   }
 
   _editArticles () {

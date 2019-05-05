@@ -1,6 +1,8 @@
 build/
 node_modules/
 test/integration/screenshots-current/
+images/
+fonts/
 _site/
 .README.md.swp
 .README_BASE_17744.md.swp

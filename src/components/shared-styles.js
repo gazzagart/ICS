@@ -35,14 +35,14 @@ export const SharedStyles = css`
     font-family: 'ICSFont';
     font-size: 24px;
     text-align: center;
-    color: var(--app-dark-text-color);
+    color:#283593;
   }
 
   h4 {
     font-size: 18px;
     font-family: 'ICSFont';
     text-align: center;
-    color: var(--app-dark-text-color);
+    color:#283593;
   }
 
   @media (min-width: 460px) {
@@ -66,6 +66,6 @@ export const SharedStyles = css`
   h3 {
     font-family: 'ICSFont';
     font-size: 20px;
-    color: var(--app-primary-color);
+    color:#283593;
   }
 `;

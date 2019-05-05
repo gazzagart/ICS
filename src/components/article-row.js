@@ -37,11 +37,11 @@ import{ w3css } from './w3-css.js';
                     <div class="loader" style="text-align:center!important;margin-top:32px;">
                         <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
                     </div>
-                    <div class="w3-center">
+                        <div class="w3-center">
                             <img src="" crossorigin="anonymous" class="w3-image cardImage" id="img1">
                         </div>
                         <h4>${this.data[0].title}</h4>
-                        <p class="w3-medium w3-left-align w3-text-grey">${this.data[0].subtitle}</p>
+                        <p class="w3-medium w3-left-align w3-text-grey">${this.data[0].subTitle}</p>
                         <br>
                         <p class="w3-large">${this.data[0].body}</p>
                     </div>
@@ -55,7 +55,7 @@ import{ w3css } from './w3-css.js';
                             <img src="" crossorigin="anonymous" class="w3-image cardImage" id="img2">
                         </div>
                         <h4>${this.data[1].title}</h4>
-                        <p class="w3-medium w3-left-align w3-text-grey">${this.data[1].subtitle}</p>
+                        <p class="w3-medium w3-left-align w3-text-grey">${this.data[1].subTitle}</p>
                         <br>
                         <p class="w3-large">${this.data[1].body}</p>
                     </div>
@@ -69,7 +69,7 @@ import{ w3css } from './w3-css.js';
                             <img src="" crossorigin="anonymous" class="w3-image cardImage" id="img3">
                         </div>
                         <h4>${this.data[2].title}</h4>
-                        <p class="w3-medium w3-left-align w3-text-grey">${this.data[2].subtitle}</p>
+                        <p class="w3-medium w3-left-align w3-text-grey">${this.data[2].subTitle}</p>
                         <br>
                         <p class="w3-large">${this.data[2].body}</p>
                     </div>
@@ -102,7 +102,6 @@ import{ w3css } from './w3-css.js';
     _getPics (imgRef, ele) {
         imgRef.getDownloadURL().then((url) => {
             ele.src = url;
-            // this.shadowRoot.querySelector('#' + ele.getAttribute("id") + 'Medium');
             ele.onload = () => {
                 this.numOfPics++;
                 ele.style.display = 'none';
@@ -122,9 +121,6 @@ import{ w3css } from './w3-css.js';
         this.shadowRoot.querySelector('#img1').style.display = "block";
         this.shadowRoot.querySelector('#img2').style.display = "block";
         this.shadowRoot.querySelector('#img3').style.display = "block";
-        // this.shadowRoot.querySelector('#img1Medium').style.display = "block";
-        // this.shadowRoot.querySelector('#img2Medium').style.display = "block";
-        // this.shadowRoot.querySelector('#img3Medium').style.display = "block";
         var cardArray = this.shadowRoot.querySelectorAll(".cardHeightRef");
         var cardHeight = 0;
         cardArray.forEach(element => {

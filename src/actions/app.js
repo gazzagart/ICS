@@ -50,6 +50,9 @@ const loadPage = (page) => (dispatch) => {
     case 'log-in':
       import('../components/log-in.js');
       break;
+    case 'single-article':
+      import('../components/single-article.js');
+      break;
     default:
       page = 'view404';
       import('../components/my-view404.js');

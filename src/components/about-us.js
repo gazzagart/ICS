@@ -86,8 +86,8 @@ constructor () {
                         </ul>
                     </div>
                 </div>
-                <div class="w3-container w3-col l4 s12" id="cardHeightRef">
-                    <div class="w3-center w3-card-4">
+                <div class="w3-container w3-col l4 s12">
+                    <div class="w3-center w3-card-4 cardHeight">
                         <img src="" crossorigin="anonymous" id="contractJpg" class="w3-image imgHeight">
                         <h4>Commercial contracts</h4>
                         <ul class="w3-ul">
@@ -103,8 +103,8 @@ constructor () {
             <!-- END OF FIRST ROW LARGE AND SMALL -->
             <div class="w3-margin w3-row-padding w3-section w3-stretch  w3-hide-medium">
             <!-- START OF SECOND ROW LARGE AND SMALL -->
-                    <div class="w3-container w3-col l4 s12 w3-margin-bottom">
-                        <div class="w3-center w3-card-4 cardHeight">
+                    <div class="w3-container w3-col l4 s12 w3-margin-bottom" id="cardHeightRef">
+                        <div class="w3-center w3-card-4">
                             <img src="" crossorigin="anonymous" id="policyJpg" class="w3-image imgHeight">
                             <h4>Policies and procedures</h4>
                             <ul class="w3-ul">
@@ -235,7 +235,7 @@ constructor () {
             var storage = firebase.storage();
             this._getPics(storage,'construction.jpg',this.shadowRoot.querySelector('#imgHeightRef'),'construction');
             this._getPics(storage,'commercial1.jpg',this.shadowRoot.querySelector('#commercialJpg'),'commercial');
-            this._getPics(storage,'contract.jpg',this.shadowRoot.querySelector('#contractJpg'),'contract');
+            this._getPics(storage,'contract1.jpg',this.shadowRoot.querySelector('#contractJpg'),'contract');
             this._getPics(storage,'education.jpg',this.shadowRoot.querySelector('#educationJpg'),'education');
             this._getPics(storage,'policy.jpg',this.shadowRoot.querySelector('#policyJpg'),'policy');
             this._getPics(storage,'audit.jpg',this.shadowRoot.querySelector('#auditJpg'),'audit');

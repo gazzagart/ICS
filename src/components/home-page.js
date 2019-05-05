@@ -73,9 +73,10 @@ class HomePage extends connect(store)(PageViewElement) {
         opacity: 0;
       }
     </style>
+  <div style="overflow-x: hidden;">
     <div class="w3-card-4" style="margin-top:32px;">
       <section class="hiddenSingle" style="padding-bottom: 0 !important;">
-        <h2 class="webFont">Welcome <br> Integral Commercial Services</h2>
+        <h1 class="w3-center" style="text-transform: uppercase;font-family: 'ICSFont';color:#283593;">Specialist legal services to businesses.  </h1>
       </section>
       <!--First row  -->
       <!-- Shown on larger screen sizes -->
@@ -86,7 +87,7 @@ class HomePage extends connect(store)(PageViewElement) {
 
       <div class="w3-col w3-container l6 m6 hiddenLeftRight">
           <div style="padding-right:24px;">
-          <h3 class="w3-center">About ICS</h3>
+          <h3 class="w3-center">About integral</h3>
             <h5 class="w3-center">Excellence is our standard</h5>
             <p class="w3-large">Integral handles your company’s legal concerns, allowing you to focus on what matters – growth and profit.</p>
             <p class="w3-large w3-text-grey w3-hide-medium">
@@ -104,7 +105,7 @@ class HomePage extends connect(store)(PageViewElement) {
 
         <div class="w3-col l6 m6 hiddenLeftRight">
             <div style="padding-left:24px;padding-right:24px;">
-              <h3 class="w3-center">About ICS</h3>
+              <h3 class="w3-center">About integral</h3>
               <h5 class="w3-center">Excellence is our standard</h5>
               <p class="w3-large">Integral handles your company’s legal concerns, allowing you to focus on what matters – growth and profit.</p>
               <p class="w3-large w3-text-grey">
@@ -131,12 +132,13 @@ class HomePage extends connect(store)(PageViewElement) {
     <!-- Contact me  -->
     <div class="w3-container w3-card-4 w3-padding hiddenSingle" id="contact">
       <h3 class="w3-center">Contact Us</h3>
-      <p class="w3-large">We offer full-service law servies for any business, large or small. We understand your needs and we will find solutions to your problems. Do not hesitate to contact us.</p>
+      <p class="w3-large">We offer full-service law services for any business, large or small. We understand your needs and we will find solutions to your problems. Do not hesitate to contact us.</p>
       <p class="w3-large">For a free review of your company’s employment contract, email from here: <span class="w3-text-blue w3-hover-opacity">
       <a href="mailto:admin@integralservices.co.za">admin@integralservices.co.za</a></span>, or you can contact us at:
-      <span class="w3-text-blue-grey w3-large"><b><a class="w3-hide-large w3-hide-medium" href="010-500-0960">(010) 500 0960</a><span class="w3-hide-small">(010) 500 0960</span>.</b></span></p>
+      <span class="w3-text-blue-grey w3-large"><b><a class="w3-hide-large w3-hide-medium" href="tel:010-500-0960">(010) 500 0960</a><span class="w3-hide-small">(010) 500 0960</span>.</b></span></p>
       <div class="w3-center"><paper-button @click="${this._contactPage}" class="w3-indigo">contact page</paper-button></div>
     </div>
+  </div>
     <canvas id="canvas"></canvas>
     `;
   }

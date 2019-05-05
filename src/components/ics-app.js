@@ -79,6 +79,7 @@ class MyApp extends connect(store)(LitElement) {
           font-family: 'ICSFont';
           font-size: 30px;
           font-weight: 900;
+          color:#283593;
           /* In the narrow layout, the toolbar is offset by the width of the
           drawer button, and the text looks not centered. Add a padding to
           match that button */
@@ -195,7 +196,11 @@ class MyApp extends connect(store)(LitElement) {
       <app-header condenses reveals effects="waterfall">
         <app-toolbar class="toolbar-top">
           <button class="menu-btn" title="Menu" @click="${this._menuButtonClicked}">${menuIcon}</button>
-          <div main-title>${this.appTitle}</div>
+          <div main-title>
+            ${this.appTitle}
+            <div class="w3-small" style="font-size: 10px !important;">company services - labour - legal</div>
+          </div>
+          <br>
         </app-toolbar>
 
         <!-- This gets hidden on a small screen-->
@@ -232,6 +237,7 @@ class MyApp extends connect(store)(LitElement) {
         <contact-us class="page" ?active="${this._page === 'contact-us'}"></contact-us>
         <log-in class="page" ?active="${this._page === 'log-in'}"></log-in>
         <article-input class="page" ?active="${this._page === 'article-input'}"></article-input>
+        <single-article class="page" ?active="${this._page === 'single-article'}"></single-article>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
 

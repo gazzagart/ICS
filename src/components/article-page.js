@@ -50,6 +50,10 @@ class ArticlePage extends PageViewElement {
   }
 
   firstUpdated () {
+    console.log("The smell: ",window.location.hash.substr(1));
+    if(window.location.hash.substr(1)) {
+      console.log("yes");
+    }
     var db = firebase.firestore();
     var numberOfArticles = 0;
     db.collection("articles").get().then((querySnapshot) => {
