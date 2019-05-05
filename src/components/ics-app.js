@@ -206,7 +206,6 @@ class MyApp extends connect(store)(LitElement) {
         <!-- This gets hidden on a small screen-->
         <nav class="toolbar-list">
           <a ?selected="${this._page === 'home-page'}" href="/home-page">Home</a>
-          <a ?selected="${this._page === 'about-us'}" href="/about-us">About Us</a>
           <a ?selected="${this._page === 'article-page'}" href="/article-page">Articles</a>
           <a ?selected="${this._page === 'contact-us'}" href="/contact-us">Contact</a>
         </nav>
@@ -221,7 +220,6 @@ class MyApp extends connect(store)(LitElement) {
             <div style="height: 100%; overflow: auto;">
               <nav class="drawer-list">
                 <a ?selected="${this._page === 'home-page'}" href="/home-page">Home</a>
-                <a ?selected="${this._page === 'about-us'}" href="/about-us">About Us</a>
                 <a ?selected="${this._page === 'article-page'}" href="/article-page">Articles</a>
                 <a ?selected="${this._page === 'contact-us'}" href="/contact-us">Contact</a>
               </nav>
@@ -232,7 +230,6 @@ class MyApp extends connect(store)(LitElement) {
       <!-- Main content -->
       <main role="main" class="main-content">
         <home-page class="page" ?active="${this._page === 'home-page'}"></home-page>
-        <about-us class="page" ?active="${this._page === 'about-us'}"></about-us>
         <article-page class="page" ?active="${this._page === 'article-page'}"></article-page>
         <contact-us class="page" ?active="${this._page === 'contact-us'}"></contact-us>
         <log-in class="page" ?active="${this._page === 'log-in'}"></log-in>

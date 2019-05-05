@@ -26,6 +26,20 @@ class HomePage extends connect(store)(PageViewElement) {
     ];
   }
 
+  static get properties() {
+    return {
+        numOfPics: { type: Number}
+    };
+}
+
+constructor () {
+  super();
+  this.numOfPics = 0;
+  this._getPics = this._getPics.bind(this);
+  this._getBase64Image = this._getBase64Image.bind(this);
+  this._resizeCard = this._resizeCard.bind(this);
+}
+
   render() {
     return html`
     <style>
@@ -89,11 +103,14 @@ class HomePage extends connect(store)(PageViewElement) {
           <div style="padding-right:24px;">
           <h3 class="w3-center">About integral</h3>
             <h5 class="w3-center">Excellence is our standard</h5>
-            <p class="w3-large">Integral handles your company’s legal concerns, allowing you to focus on what matters – growth and profit.</p>
+            <p class="w3-large">Integral Company Services provides expert legal and compliance services to companies. As a business owner, legal compliance is one of your company’s many concerns.
+        Unfortunately, many companies are not aware of the many laws and regulations with which they must comply, and the penalties for non-compliance can be significant. Our
+        experience in labour and commercial law enable us to provide excellent service and advice to your company, enabling you to focus on growth with the peace of mind knowing that
+        your compliance concerns are covered.</p>
             <p class="w3-large w3-text-grey w3-hide-medium">
-              Labour relations, commercial contracts, company registrations and maintenance, BEE and more.
+            We are also backed by commercial and litigation attorneys, allowing us to offer your company debt
+        collection and litigation (court) services.
             </p>
-            <div class="w3-center"><paper-button @click="${this._aboutUs}" class="w3-indigo">more</paper-button></div>
           </div>
       </div>
     </div>
@@ -107,27 +124,185 @@ class HomePage extends connect(store)(PageViewElement) {
             <div style="padding-left:24px;padding-right:24px;">
               <h3 class="w3-center">About integral</h3>
               <h5 class="w3-center">Excellence is our standard</h5>
-              <p class="w3-large">Integral handles your company’s legal concerns, allowing you to focus on what matters – growth and profit.</p>
+              <p class="w3-large">Integral Company Services provides expert legal and compliance services to companies. As a business owner, legal compliance is one of your company’s many concerns.
+        Unfortunately, many companies are not aware of the many laws and regulations with which they must comply, and the penalties for non-compliance can be significant. Our
+        experience in labour and commercial law enable us to provide excellent service and advice to your company, enabling you to focus on growth with the peace of mind knowing that
+        your compliance concerns are covered.</p>
               <p class="w3-large w3-text-grey">
-                Labour relations, commercial contracts, company registrations and maintenance, BEE and more.
+              We are also backed by commercial and litigation attorneys, allowing us to offer your company debt
+        collection and litigation (court) services.
               </p>
-              <div class="w3-center"><paper-button @click="${this._aboutUs}" class="w3-indigo">more</paper-button></div>
             </div>
       </div>
     </div>
-    <!-- END OF FIRST ROW -->
-    <!-- Second Row -->
-    <div class="w3-row-padding w3-section w3-stretch w3-padding">
-        <div class="w3-col l6 m6 hiddenUpDown" style="padding-left:24px;">
-              <h3 class="w3-center">Our Offices</h3>
-              <p class="w3-large">Our offices are located in Johannesburg.</p><br>
-        </div>
-
-        <div class="w3-col l6 m6 w3-padding-large hiddenUpDown">
-            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAFlAiIDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAECA//EACwQAQEAAQMEAQMEAgMBAQAAAAABESExUQISQWFxgZGhIrHh8DLRUnLxQoL/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABcRAQEBAQAAAAAAAAAAAAAAAAARASH/2gAMAwEAAhEDEQA/AKAAAAAAy0xdwVWVRWhFBLMsOjNnkGBaioAAN3WSsLNrAXfF5bmjM/ZsHPq3ZW71ABUAb6dmGoDRlABABYuEjQCKAjNaS0GUVAAAAAAAAAAAAAURQQABvp8sNdINASUBuTBJhQRUAAAQyM38+AXMGM+oA2CAoICiKA53d0c6BFJsS+PqCytMLKitKgCWZ+XN2Zsz8qOYpiiIsMeDyDXT5auzHTuvVtgGAAURQRvpZb6dgBQGcGGsGAZ2ajPVCUG0MgJhMFTAJUWoAAAAAAAAAAAAAACoADpOIxNXWTAEigAIAomQAyn9+P4TOZmePALn78M2y+qluU0oGQx7gDooIIGDAIqgJdnO7umE7Z7UZ8I3iJekpGGksAblVhqVFVUUGbM6zdh1Z6p5ioxquPJKuQLpcs25q4z5O32DI32+zt9lGBvtnK9s5KMOk2ids5rUmAAAAAZ6vDLXV4AFRQGbeFtiaAwNYyYBkXBgEFwYBBrB2gyNdvs7fYMjfb7O32DA32+zt9gwN9vs7cgw3OjluSTZQJJNgQFQQDJUszrN2c3yDWczMSXxzsmcG+wLaSLIAM2NbJeoGBrM4AdMDQkGRoIM4GkoqIqagBrwYoM1lvFZsvCokqpi8Lig1KrCyoras5UGOqY1R0Z7QAxgQUAFAUAAAQEzIuY5Co6XwkZjQNZZyu64BnCWYbYoLFWTRcIrJhrCY9gzgax7MUGVXFO32CC9vs7fYIL2+17fYIL2+zAJJloFQDKAIAIzcxTMu4J3VdL6qWTwScgYy1sCKAIq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" class="w3-round w3-image labourEle w3-card-4" crossorigin="anonymous" alt="Labour Law" id="imgHeightRef" style="width:100%">
-        </div>
+    <section>
+        <h2 class="w3-animate-top">Expertise</h2>
+    </section>
+    <div id="loader" style="text-align:center!important;margin-top:32px;">
+        <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
     </div>
-    <!-- END OF SECOND ROW -->
+    <!-- START OF CARDS -->
+        <div id="cardRegion" class="w3-animate-opacity" style="display:none; padding:32px;">
+            <div class="w3-margin w3-row-padding w3-section w3-stretch w3-hide-medium hiddenUpDown">
+            <!-- START OF FIRST ROW LARGE AND SMALL -->
+                <div class="w3-container w3-col l4 s12 w3-margin-bottom">
+                    <div class="w3-center w3-card-4 cardHeight">
+                        <img src="" crossorigin="anonymous" class="w3-image" id="imgHeightRef">
+                        <h4>Labour</h4>
+                        <ul class="w3-ul">
+                            <li>Disciplinary procedures and policies</li>
+                            <li>CCMA consultation</li>
+                            <li>Dispute resolution</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="w3-container w3-col l4 s12 w3-margin-bottom">
+                    <div class="w3-center w3-card-4 cardHeight">
+                        <img src="" crossorigin="anonymous" id="commercialJpg" class="w3-image imgHeight">
+                        <h4>Debt Collection</h4>
+                        <ul class="w3-ul">
+                            <li>Including further legal action</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="w3-container w3-col l4 s12">
+                    <div class="w3-center w3-card-4 cardHeight">
+                        <img src="" crossorigin="anonymous" id="contractJpg" class="w3-image imgHeight">
+                        <h4>Commercial contracts</h4>
+                        <ul class="w3-ul">
+                            <li>Contract negotiation</li>
+                            <li>Employment contracts</li>
+                            <li>Service Level Agreements</li>
+                            <li>Lease agreements</li>
+                            <li>Terms and conditions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- END OF FIRST ROW LARGE AND SMALL -->
+            <div class="w3-margin w3-row-padding w3-section w3-stretch w3-hide-medium hiddenUpDown">
+            <!-- START OF SECOND ROW LARGE AND SMALL -->
+                    <div class="w3-container w3-col l4 s12 w3-margin-bottom" id="cardHeightRef">
+                        <div class="w3-center w3-card-4">
+                            <img src="" crossorigin="anonymous" id="policyJpg" class="w3-image imgHeight">
+                            <h4>Policies and procedures</h4>
+                            <ul class="w3-ul">
+                                <li>Absenteeism</li>
+                                <li>Alcoholism</li>
+                                <li>Smoking policy</li>
+                                <li>Negligence</li>
+                                <li>Desertion</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="w3-container w3-col l4 s12 w3-margin-bottom">
+                        <div class="w3-center w3-card-4 cardHeight">
+                            <img src="" crossorigin="anonymous" id="auditJpg" class="w3-image imgHeight">
+                            <h4>Audits</h4>
+                            <ul class="w3-ul">
+                                <li>Workplace audits</li>
+                                <li>Website and premises disclaimers</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="w3-container w3-col l4 s12">
+                        <div class="w3-center w3-card-4 cardHeight">
+                            <img src="" crossorigin="anonymous" id="educationJpg" class="w3-image imgHeight">
+                            <h4>Training and education</h4>
+                            <ul class="w3-ul">
+                                <li>Contract negotiation</li>
+                                <li>Employment contracts</li>
+                                <li>Service Level Agreements</li>
+                                <li>Lease agreements</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            <!-- END OF SECOND ROW LARGE AND SMALL -->
+            <div class="w3-margin w3-row-padding w3-section w3-stretch w3-hide-small w3-hide-large hiddenLeftRight">
+            <!-- START OF FIRST ROW MEDIUM -->
+                    <div class="w3-container w3-col m6 w3-margin-bottom">
+                        <div class="w3-center w3-card-4 cardHeightMedium">
+                            <img src="" crossorigin="anonymous" class="w3-image constructionJpg" id="imgHeightRefMedium">
+                            <h4>Labour</h4>
+                            <ul class="w3-ul">
+                                <li>Disciplinary procedures and policies</li>
+                                <li>CCMA consultation</li>
+                                <li>Dispute resolution</li>
+                            </ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="w3-container w3-col m6 w3-margin-bottom">
+                        <div class="w3-center w3-card-4 cardHeightMedium">
+                            <img src="" crossorigin="anonymous" class="w3-image imgHeightMedium commercialJpg">
+                            <h4>Debt Collection</h4>
+                            <ul class="w3-ul">
+                                <li>Including further legal action</li>
+                            </ul>
+                        </div>
+                    </div>
+            </div>
+            <!-- END OF FIRST ROW MEDIUM -->
+            <!-- START OF SECOND ROW MEDIUM -->
+            <div class="w3-margin w3-row-padding w3-section w3-stretch w3-hide-small w3-hide-large hiddenLeftRight">
+                    <div class="w3-container w3-col m6">
+                        <div class="w3-center w3-card-4 cardHeightMedium">
+                            <img src="" crossorigin="anonymous" class="w3-image imgHeightMedium contractJpg">
+                            <h4>Commercial contracts</h4>
+                            <ul class="w3-ul">
+                                <li>Contract negotiation</li>
+                                <li>Employment contracts</li>
+                                <li>Service Level Agreements</li>
+                                <li>Lease agreements</li>
+                                <li>Terms and conditions</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="w3-container w3-col m6 w3-margin-bottom">
+                        <div class="w3-center w3-card-4" id="cardHeightRefMedium">
+                            <img src="" crossorigin="anonymous" class="w3-image imgHeightMedium policyJpg">
+                            <h4>Policies and procedures</h4>
+                            <ul class="w3-ul">
+                                <li>Absenteeism</li>
+                                <li>Alcoholism</li>
+                                <li>Smoking policy</li>
+                                <li>Negligence</li>
+                                <li>Desertion</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- END OF SECOND ROW MEDIUM -->
+                <!-- START OF THIRD ROW MEDIUM -->
+                <div class="w3-margin w3-row-padding w3-section w3-stretch w3-hide-small w3-hide-large">
+                    <div class="w3-container w3-col m6 w3-margin-bottom">
+                        <div class="w3-center w3-card-4 cardHeightMedium">
+                            <img src="" crossorigin="anonymous" class="w3-image imgHeightMedium auditJpg">
+                            <h4>Audits</h4>
+                            <ul class="w3-ul">
+                                <li>Workplace audits</li>
+                                <li>Website and premises disclaimers</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="w3-container w3-col m6">
+                        <div class="w3-center w3-card-4 cardHeightMedium">
+                            <img src="" crossorigin="anonymous" class="w3-image imgHeightMedium educationJpg">
+                            <h4>Training and education</h4>
+                            <ul class="w3-ul">
+                                <li>Contract negotiation</li>
+                                <li>Employment contracts</li>
+                                <li>Service Level Agreements</li>
+                                <li>Lease agreements</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- END OF THIRD ROW MEDIUM -->
+        </div>
+        <!-- END OF CARDS -->
+    <!-- END OF FIRST ROW -->
   </div>
     <!-- Contact me  -->
     <div class="w3-container w3-card-4 w3-padding hiddenSingle" id="contact">
@@ -145,10 +320,6 @@ class HomePage extends connect(store)(PageViewElement) {
 
   _contactPage() {
     window.location.href = "/contact-us";
-  }
-
-  _aboutUs () {
-    window.location.href='/about-us';
   }
 
   _resizeCard () {
@@ -341,7 +512,117 @@ class HomePage extends connect(store)(PageViewElement) {
       };
     };
     animateHTML().init();
+    // About us section
+    window.addEventListener("resize", () => {
+        this._resizeCardAboutUs();
+    });
+    if(localStorage.getItem('auditImage') == undefined || localStorage.getItem('auditImage') == null) {
+        var storage = firebase.storage();
+        this._getPics(storage,'construction.jpg',this.shadowRoot.querySelector('#imgHeightRef'),'construction');
+        this._getPics(storage,'commercial1.jpg',this.shadowRoot.querySelector('#commercialJpg'),'commercial');
+        this._getPics(storage,'contract1.jpg',this.shadowRoot.querySelector('#contractJpg'),'contract');
+        this._getPics(storage,'education.jpg',this.shadowRoot.querySelector('#educationJpg'),'education');
+        this._getPics(storage,'policy.jpg',this.shadowRoot.querySelector('#policyJpg'),'policy');
+        this._getPics(storage,'audit.jpg',this.shadowRoot.querySelector('#auditJpg'),'audit');
+    } else {
+        var constructionImage = localStorage.getItem('constructionImage');
+        var commercial1Image = localStorage.getItem('commercialImage');
+        var contractImage = localStorage.getItem('contractImage');
+        var educationImage = localStorage.getItem('educationImage');
+        var policyImage = localStorage.getItem('policyImage');
+        var auditImage = localStorage.getItem('auditImage');
+
+        var constructionPicArray = this.shadowRoot.querySelectorAll('.constructionJpg');
+        constructionPicArray.forEach(element => {
+            element.src = "data:image/jpeg;base64, " + constructionImage;
+        });
+        var commercialArray = this.shadowRoot.querySelectorAll('.commercialJpg');
+        commercialArray.forEach(element => {
+            element.src = "data:image/jpeg;base64, " + commercial1Image;
+        });
+        var contractArray = this.shadowRoot.querySelectorAll('.contractJpg');
+        contractArray.forEach(element => {
+            element.src = "data:image/jpeg;base64, " + contractImage;
+        });
+        var educationArray = this.shadowRoot.querySelectorAll('.educationJpg');
+        educationArray.forEach(element => {
+            element.src = "data:image/jpeg;base64, " + educationImage;
+        });
+        var policyArray = this.shadowRoot.querySelectorAll('.policyJpg');
+        policyArray.forEach(element => {
+            element.src = "data:image/jpeg;base64, " + policyImage;
+        });
+        var auditArray = this.shadowRoot.querySelectorAll('.auditJpg');
+        auditArray.forEach(element => {
+            element.src = "data:image/jpeg;base64, " + auditImage;
+        });
+        this.shadowRoot.querySelector('#imgHeightRef').src = "data:image/jpeg;base64, " + constructionImage;
+        this.shadowRoot.querySelector('#commercialJpg').src = "data:image/jpeg;base64, " + commercial1Image;
+        this.shadowRoot.querySelector('#contractJpg').src = "data:image/jpeg;base64, " + contractImage;
+        this.shadowRoot.querySelector('#educationJpg').src = "data:image/jpeg;base64, " + educationImage;
+        this.shadowRoot.querySelector('#policyJpg').src = "data:image/jpeg;base64, " + policyImage;
+        this.shadowRoot.querySelector('#auditJpg').src = "data:image/jpeg;base64, " + auditImage;
+        setTimeout(() => {
+            this.shadowRoot.querySelector("#loader").style.display = "none";
+            this.shadowRoot.querySelector("#cardRegion").style.display = "block";
+            this._resizeCardAboutUs();
+        }, 100);
+    }
   }
+
+  _resizeCardAboutUs () {
+    var imgHeightRef = this.shadowRoot.querySelector("#imgHeightRef");
+    var imgStyle = window.getComputedStyle(imgHeightRef);
+    var imgHeight = imgStyle.height;
+    var imgsToChange = this.shadowRoot.querySelectorAll(".imgHeight");
+    imgsToChange.forEach(element => {
+        element.style.maxHeight = imgHeight;
+    });
+    var cardRef = this.shadowRoot.querySelector("#cardHeightRef");
+    var cardStyle = window.getComputedStyle(cardRef);
+    var cardHeight = cardStyle.height;
+    var cardsToChange = this.shadowRoot.querySelectorAll(".cardHeight");
+    cardsToChange.forEach(element => {
+        element.style.minHeight = cardHeight;
+    });
+    var imgHeightRefMedium = this.shadowRoot.querySelector("#imgHeightRefMedium");
+    imgStyle = window.getComputedStyle(imgHeightRefMedium);
+    imgHeight = imgStyle.height;
+    imgsToChange = this.shadowRoot.querySelectorAll(".imgHeightMedium");
+    imgsToChange.forEach(element => {
+        element.style.maxHeight = imgHeight;
+    });
+    var cardRefMedium = this.shadowRoot.querySelector("#cardHeightRefMedium");
+    cardStyle = window.getComputedStyle(cardRefMedium);
+    cardHeight = cardStyle.height;
+    cardsToChange = this.shadowRoot.querySelectorAll(".cardHeightMedium");
+    cardsToChange.forEach(element => {
+        element.style.minHeight = cardHeight;
+    });
+}
+
+_getPics(ref,name,ele,storageName) {
+    var appJpg = ref.ref('images/'+name);
+    appJpg.getDownloadURL().then((url) => {
+        ele.src = url;
+        ele.onload = () => {
+            this.numOfPics++;
+            var mediumPics = this.shadowRoot.querySelectorAll('.' + storageName + 'Jpg');
+            mediumPics.forEach(element => {
+                element.src = url;
+            });
+            var imgData = this._getBase64Image(ele);
+            localStorage.setItem(storageName + 'Image', imgData);
+            if (this.numOfPics == 6) {
+                setTimeout(() => {
+                    this.shadowRoot.querySelector("#loader").style.display = "none";
+                    this.shadowRoot.querySelector("#cardRegion").style.display = "block";
+                    this._resizeCardAboutUs();
+                }, 500);
+            }
+        };
+    });
+}
 
 }
 

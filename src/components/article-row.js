@@ -4,6 +4,8 @@ import { LitElement, html } from 'lit-element';
 import { SharedStyles } from './shared-styles.js';
 import{ w3css } from './w3-css.js';
 
+import '@polymer/paper-button/paper-button.js';
+
 
     class ArticleRow extends LitElement {
     static get styles() {
@@ -41,9 +43,11 @@ import{ w3css } from './w3-css.js';
                             <img src="" crossorigin="anonymous" class="w3-image cardImage" id="img1">
                         </div>
                         <h4>${this.data[0].title}</h4>
-                        <p class="w3-medium w3-left-align w3-text-grey">${this.data[0].subTitle}</p>
-                        <br>
-                        <p class="w3-large">${this.data[0].body}</p>
+                        <p class="w3-medium w3-left-align w3-text-grey w3-margin-left">${this.data[0].subTitle}</p>
+                        <div class="w3-center">
+                            <paper-button @click="${() => {window.location.href = "single-article#" + this.data[0].Id;}}" raised class="w3-indigo">open article</paper-button>
+                        </div>
+                        <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom" style="text-align: justify !important;">${this.data[0].body}</p>
                     </div>
                 </div>
                 <div class="w3-container w3-col l4 m4 s12 w3-margin-bottom">
@@ -55,9 +59,11 @@ import{ w3css } from './w3-css.js';
                             <img src="" crossorigin="anonymous" class="w3-image cardImage" id="img2">
                         </div>
                         <h4>${this.data[1].title}</h4>
-                        <p class="w3-medium w3-left-align w3-text-grey">${this.data[1].subTitle}</p>
-                        <br>
-                        <p class="w3-large">${this.data[1].body}</p>
+                        <p class="w3-medium w3-left-align w3-text-grey w3-margin-left">${this.data[1].subTitle}</p>
+                        <div class="w3-center">
+                            <paper-button @click="${() => {window.location.href = "single-article#" + this.data[1].Id;}}" raised class="w3-indigo">open article</paper-button>
+                        </div>
+                        <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom" style="text-align: justify !important;">${this.data[1].body.substring(0, 400)}</p>
                     </div>
                 </div>
                 <div class="w3-container w3-col l4 m4 s12 w3-margin-bottom">
@@ -69,9 +75,11 @@ import{ w3css } from './w3-css.js';
                             <img src="" crossorigin="anonymous" class="w3-image cardImage" id="img3">
                         </div>
                         <h4>${this.data[2].title}</h4>
-                        <p class="w3-medium w3-left-align w3-text-grey">${this.data[2].subTitle}</p>
-                        <br>
-                        <p class="w3-large">${this.data[2].body}</p>
+                        <p class="w3-medium w3-left-align w3-text-grey w3-margin-left">${this.data[2].subTitle}</p>
+                        <div class="w3-center">
+                            <paper-button @click="${() => {window.location.href = "single-article#" + this.data[2].Id;}}" raised class="w3-indigo">open article</paper-button>
+                        </div>
+                        <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom" style="text-align: justify !important;">${this.data[2].body.substring(0, 400)}</p>
                     </div>
                 </div>
             </div>
@@ -87,6 +95,7 @@ import{ w3css } from './w3-css.js';
     }
 
     firstUpdated () {
+        this._firstResize();
         window.addEventListener("resize", () => {
             this._resizeCard();
         });
@@ -115,6 +124,19 @@ import{ w3css } from './w3-css.js';
                     }, 100);
                 }
             };
+        });
+    }
+    _firstResize () {
+        var cardArray = this.shadowRoot.querySelectorAll(".cardHeightRef");
+        var cardHeight = 0;
+        cardArray.forEach(element => {
+            var heightOfEle = parseFloat(window.getComputedStyle(element).height.replace('px',''));
+            if(heightOfEle > cardHeight){
+                cardHeight = heightOfEle;
+            }
+        });
+        cardArray.forEach(element => {
+            element.style.minHeight = cardHeight + 'px';
         });
     }
     _resizeCard(){

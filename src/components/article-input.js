@@ -137,24 +137,26 @@ constructor () {
     });
     var db = firebase.firestore();
     var numberOfArticles = 0;
-    db.collection("articles").get().then((querySnapshot) => {
+    db.collection("articles").orderBy("date", "desc").limit(12).get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
           let data = doc.data();
           if(doc.id == 'articleCount') numberOfArticles = data.count;
-          else {
+          else if(doc.id != 'Contracts' && doc.id != 'Labour') {
+            if(data.body.length > 399)
+              data.body = data.body.substring(0, 400)+"...";
             this.dataArray.push(data);
           }
       });
     }).then(() => {
       if((numberOfArticles % 3) == 1) {//? 1 article.
         // We need two place holders
-        var jsonPass = {title: "Title", body: "Body", subTitle: "Sub Title", image:"audit.jpg"};
+        var jsonPass = {title: "Did You Know?", body: "Body", subTitle: "Contracts", image:"audit.jpg", Id: "Contracts"};
         this.dataArray.push(jsonPass);
-        jsonPass = {title: "Title2", body: "Body2", subTitle: "Sub Title2", image:"construction.jpg"};
+        jsonPass = {title: "Did You Know?", body: "Body", subTitle: "Labour", image:"construction.jpg", Id: "Labour"};
         this.dataArray.push(jsonPass);
       } else if ((numberOfArticles % 3) == 2) {
         // We need one place holder
-        var jsonPass = {title: "Title", body: "Body", subTitle: "Sub Title", image:"audit.jpg"};
+        var jsonPass = {title: "Did You Know?", body: "Body", subTitle: "Labour", image:"construction.jpg", Id: "Labour"};
         this.dataArray.push(jsonPass);
       }
       var length = this.dataArray.length;
@@ -229,7 +231,8 @@ constructor () {
       body: body,
       subTitle: subTitle,
       image: imageName,
-      imageMeta: imageMeta
+      imageMeta: imageMeta,
+      date: firebase.firestore.Timestamp.fromDate(new Date())
     })
     .then((docRef) => {
         this.colourSnack = "#4caf50";
@@ -245,7 +248,8 @@ constructor () {
           articleCount = doc.data().count + 1;
         }).then(() => {
           docRef.update({
-            count: articleCount
+            count: articleCount,
+            date: firebase.firestore.Timestamp.fromDate(new Date()) // So that we always get this in limit query by desc
             }).then(function() {
               console.log("Document successfully updated!");
           })

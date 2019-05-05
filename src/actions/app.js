@@ -35,9 +35,6 @@ const loadPage = (page) => (dispatch) => {
         // navigating to home-page after home-page.js is loaded.
       });
       break;
-    case 'about-us':
-      import('../components/about-us.js');
-      break;
     case 'contact-us':
       import('../components/contact-us.js');
       break;
