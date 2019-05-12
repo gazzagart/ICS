@@ -45,9 +45,9 @@ import '@polymer/paper-button/paper-button.js';
                         <h4>${this.data[0].title}</h4>
                         <p class="w3-medium w3-left-align w3-text-grey w3-margin-left">${this.data[0].subTitle}</p>
                         <div class="w3-center">
-                            <paper-button @click="${() => {window.location.href = "single-article#" + this.data[0].Id;}}" raised class="w3-indigo">open article</paper-button>
+                            <paper-button @click="${() => {window.location.href = "/single-article#" + this.data[0].Id;}}" raised class="w3-indigo">open article</paper-button>
                         </div>
-                        <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom" style="text-align: justify !important;">${this.data[0].body}</p>
+                        <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom" style="text-align: justify !important;">${this.data[0].body.substring(0, 400).replace(/\\n/g, '\n') + "..."}</p>
                     </div>
                 </div>
                 <div class="w3-container w3-col l4 m4 s12 w3-margin-bottom">
@@ -61,9 +61,9 @@ import '@polymer/paper-button/paper-button.js';
                         <h4>${this.data[1].title}</h4>
                         <p class="w3-medium w3-left-align w3-text-grey w3-margin-left">${this.data[1].subTitle}</p>
                         <div class="w3-center">
-                            <paper-button @click="${() => {window.location.href = "single-article#" + this.data[1].Id;}}" raised class="w3-indigo">open article</paper-button>
+                            <paper-button @click="${() => {window.location.href = "/single-article#" + this.data[1].Id;}}" raised class="w3-indigo">open article</paper-button>
                         </div>
-                        <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom" style="text-align: justify !important;">${this.data[1].body.substring(0, 400)}</p>
+                        <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom" style="text-align: justify !important;">${this.data[1].body.substring(0, 400).replace(/\\n/g, '\n') + "..."}</p>
                     </div>
                 </div>
                 <div class="w3-container w3-col l4 m4 s12 w3-margin-bottom">
@@ -77,9 +77,9 @@ import '@polymer/paper-button/paper-button.js';
                         <h4>${this.data[2].title}</h4>
                         <p class="w3-medium w3-left-align w3-text-grey w3-margin-left">${this.data[2].subTitle}</p>
                         <div class="w3-center">
-                            <paper-button @click="${() => {window.location.href = "single-article#" + this.data[2].Id;}}" raised class="w3-indigo">open article</paper-button>
+                            <paper-button @click="${() => {window.location.href = "/single-article#" + this.data[2].Id;}}" raised class="w3-indigo">open article</paper-button>
                         </div>
-                        <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom" style="text-align: justify !important;">${this.data[2].body.substring(0, 400)}</p>
+                        <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom" style="text-align: justify !important;">${this.data[2].body.substring(0, 400).replace(/\\n/g, '\n') + "..."}</p>
                     </div>
                 </div>
             </div>

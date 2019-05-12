@@ -21,7 +21,8 @@ class DragDrop extends LitElement {
             uploadProgress: { type: Array},
             articleMessage: { type: String},
             toastOpened: {type: Boolean},
-            colourSnack: {type: String}
+            colourSnack: {type: String},
+            imageName: {type: Number}
         };
     }
 
@@ -109,6 +110,7 @@ class DragDrop extends LitElement {
 constructor () {
     super();
     this.uploadProgress = [];
+    this.imageName = 0;
     this.progressBar = this.shadowRoot.querySelector('#progress-bar');
     this.handleDrop = this.handleDrop.bind(this);
     this.handleFiles = this.handleFiles.bind(this);
@@ -156,6 +158,14 @@ firstUpdated () {
     function unhighlight(e) {
         dropArea.classList.remove('active');
     }
+
+    var db = firebase.firestore();
+    var docRef = db.collection("articles").doc("articleCount");
+    docRef.get().then((doc) => {
+        if(doc.exists) {
+            this.imageName = doc.data().count + 1;
+        }
+    });
 }
 
 handleDrop(e) {
@@ -233,7 +243,13 @@ uploadFile() {
             contentType: file.type
         };
         this.updateProgress(i, 100);
-        var uploadTask = storageRef.child('articleImages/' + file.name).put(file, metadata);
+        var uploadTask;
+        //? Here we are going to upload the name as a number! This is because when we delete, we want to delete just this picture.
+        if(this.imageName > 0) {
+            uploadTask = storageRef.child('articleImages/' + this.imageName.toString()).put(file, metadata);
+        } else {
+            uploadTask = storageRef.child('articleImages/' + file.name).put(file, metadata);
+        }
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
         (snapshot) => {
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
@@ -277,7 +293,8 @@ uploadFile() {
             this.colourSnack = "#4caf50";
             this.articleMessage = "Image has been uploaded.";
             this.toastOpened = true;
-            sessionStorage.setItem('uploadedImage', file.name);
+            // sessionStorage.setItem('uploadedImage', file.name);
+            sessionStorage.setItem('uploadedImage', this.imageName);
             sessionStorage.setItem('uploadedMeta',file.type);
             sessionStorage.setItem('uploadingImage','uploaded');
             setTimeout(() => {this.toastOpened = false;}, 2000);
@@ -293,7 +310,10 @@ resetFiles() {
     var uploadedImage = sessionStorage.getItem('uploadedImage');
     if (uploadedImage != undefined) {
         var storageRef = firebase.storage().ref();
-        var imageRef = storageRef.child('articleImages/' + file.name);
+        //? We are leaving this here incase we want to switch to file name
+        //! file.name??? Where is the file?
+        // var imageRef = storageRef.child('articleImages/' + file.name);
+        var imageRef = storageRef.child('articleImages/' + this.imageName);
         // Delete the file
         imageRef.delete().then(() => {
         // File deleted successfully

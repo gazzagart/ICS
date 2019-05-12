@@ -198,13 +198,14 @@ constructor () {
     var imageDecision = sessionStorage.getItem('uploadingImage');
     var title = this.shadowRoot.querySelector('#titleInput').value;
     var body = this.shadowRoot.querySelector('#bodyInput').value;
+    body = body.replace(/\n/g, '\\n');
     var subTitle = this.shadowRoot.querySelector('#subTitleInput').value;
     if(subTitle == undefined || subTitle == null){
       subTitle = "";
     }
     var imageName = sessionStorage.getItem('uploadedImage');
     var imageMeta = sessionStorage.getItem('uploadedMeta');
-    if (title == undefined || body == undefined) {
+    if (title == "" || body == "") {
         this.colourSnack = "#f44336";
         this.articleMessage = "You need to provide both a title and body before you can add a aritcle.";
         this.toastOpened = true;
@@ -269,7 +270,7 @@ constructor () {
   _addImage () {
     var title = this.shadowRoot.querySelector('#titleInput').value;
     var body = this.shadowRoot.querySelector('#bodyInput').value;
-    if (title == undefined || body == undefined) {
+    if (title == "" || body == "") {
         this.colourSnack = "#f44336";
         this.articleMessage = "You need to provide both a title and body before you can choose a image.";
         this.toastOpened = true;

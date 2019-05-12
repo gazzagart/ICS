@@ -54,7 +54,7 @@ class SingleArticle extends PageViewElement {
                         </div>
                 </div>
                 <div class="w3-col l6 m6 s12">
-                    <p class="w3-justify">${this.body}</p>
+                    <p class="w3-justify w3-margin" style="white-space: pre-wrap;">${this.body}</p>
                 </div>
             </div>
         </div>
@@ -75,7 +75,9 @@ class SingleArticle extends PageViewElement {
                     let articleData = doc.data();
                     this.title = articleData.title;
                     this.subTitle = articleData.subTitle;
+                    // Make sure that we apply the right styles here:
                     this.body = articleData.body;
+                    this.body =  this.body.replace(/\\n/g, '\n');
                     // Get the img that is with the article
                     var ele = this.shadowRoot.querySelector('#img');
                     var storage = firebase.storage();
