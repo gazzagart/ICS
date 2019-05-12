@@ -38,6 +38,12 @@ export const SharedStyles = css`
     color:#283593;
   }
 
+  h3 {
+    font-family: 'ICSFont';
+    font-size: 20px;
+    color:#283593;
+  }
+
   h4 {
     font-size: 18px;
     font-family: 'ICSFont';
@@ -48,6 +54,9 @@ export const SharedStyles = css`
   @media (min-width: 460px) {
     h2 {
       font-size: 36px;
+    }
+    h3 {
+      font-size: 28px;
     }
   }
 
@@ -62,10 +71,5 @@ export const SharedStyles = css`
     color: var(--app-light-text-color);
     font-size: 30px;
     line-height: 64px;
-  }
-  h3 {
-    font-family: 'ICSFont';
-    font-size: 20px;
-    color:#283593;
   }
 `;

@@ -36,25 +36,70 @@ class SingleArticle extends PageViewElement {
         paper-spinner {
             --paper-spinner-stroke-width: 6px;
         }
+        img {
+            max-height:250px;
+        }
+        p {
+            padding-left:50px;
+            padding-right:50px;
+        }
+        /* Extra small devices (phones, 600px and down) */
+        @media only screen and (max-width: 600px) {
+            img {
+                max-height:200px;
+            }
+        }
+        /* Small devices (portrait tablets and large phones, 600px and up) */
+        @media only screen and (min-width: 600px) {
+            img {
+                max-height:250px;
+            }
+        }
+
+        /* Medium devices (landscape tablets, 768px and up) */
+        @media only screen and (min-width: 768px) {
+            img {
+                max-height:300px;
+            }
+        }
+
+        /* Large devices (laptops/desktops, 992px and up) */
+        @media only screen and (min-width: 992px) {
+            img {
+                max-height:350px;
+            }
+        }
+
+        /* Extra large devices (large laptops and desktops, 1200px and up) */
+        @media only screen and (min-width: 1200px) {
+            img {
+                max-height:400px;
+            }
+        }
     </style>
         <!-- Article section -->
         <div id="loader" style="text-align:center!important;margin-top:32px;">
             <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
         </div>
         <div id="articles" style="display:none;">
-            <h2 class="w3-center w3-container">${this.title}</h2>
+            <h3 class="w3-center w3-container">${this.title}</h3>
             <section><div class="w3-center w3-text-grey w3-xlarge" style="font-style: italic;">${this.subTitle}</div></section>
             <div class="w3-row-padding">
-                <div class="w3-col l6 m6 s12">
+                <div class="w3-col l12 m12 s12">
                         <div id="imgLoader" style="text-align:center!important;margin-top:32px;">
                             <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
                         </div>
                         <div class="w3-center" id="imgContainer" style="display:none;">
-                            <img src="" crossorigin="anonymous" class="w3-image articleImg" id="img">
+                            <img src="" crossorigin="anonymous" class="w3-image articleImg w3-round-large" id="img">
                         </div>
                 </div>
-                <div class="w3-col l6 m6 s12">
-                    <p class="w3-justify w3-margin" style="white-space: pre-wrap;">${this.body}</p>
+                <div class="w3-col l12 m12 s12">
+                    <p class="w3-justify w3-margin w3-large w3-hide-large w3-hide-medium" style="white-space: pre-wrap;padding-left:20px;padding-right:20px;">${this.body}
+                    </p>
+                    <p class="w3-justify w3-margin w3-large w3-hide-large w3-hide-small" style="white-space: pre-wrap;padding-left:50px;padding-right:50px;">${this.body}
+                    </p>
+                    <p class="w3-justify w3-margin w3-large w3-hide-small w3-hide-medium" style="white-space: pre-wrap;padding-left:100px;padding-right:100px;">${this.body}
+                    </p>
                 </div>
             </div>
         </div>
