@@ -84,6 +84,26 @@ import '@polymer/paper-button/paper-button.js';
                 </div>
             </div>
             <!-- END OF SMALL AND LARGE ROW -->
+            <!-- SINGLE ROW ARTICLE -->
+            <div class="w3-row w3-section w3-stretch w3-center w3-card-4" style="padding-bottom:16px;">
+                <div class="w3-container w3-col l8 m8 s8">
+                    <h4>${this.data[2].title}</h4>
+                    <p class="w3-medium w3-left-align w3-text-grey w3-margin-left">${this.data[2].subTitle}</p>
+                    <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom" style="text-align: justify !important;">${this.data[2].body.substring(0, 400).replace(/\\n/g, '\n') + "..."}</p>
+                    <div class="w3-center">
+                        <paper-button @click="${() => {window.location.href = "/single-article#" + this.data[2].Id;}}" raised class="w3-indigo">open article</paper-button>
+                    </div>
+                </div>
+                <div class="w3-container w3-col l4 m4 s4">
+                    <div class="loader" style="text-align:center!important;margin-top:32px;">
+                        <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
+                    </div>
+                    <div class="w3-center">
+                        <img src="" crossorigin="anonymous" class="w3-image" id="img3">
+                    </div>
+                </div>
+            </div>
+            <!-- END OF SINGLE ROW ARTICLE -->
             `;
     }
 
@@ -158,4 +178,57 @@ import '@polymer/paper-button/paper-button.js';
 
 }
 
+
 window.customElements.define('article-row', ArticleRow);
+
+/** needed for article-page if we dont use one one per line.
+ * var db = firebase.firestore();
+    var numberOfArticles = 0;
+    db.collection("articles").orderBy("date", "desc").limit(12).get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+          let data = doc.data();
+          data.Id = doc.id;
+          if(doc.id == 'articleCount') numberOfArticles = data.count;
+          else if(doc.id != 'Contracts' && doc.id != 'Labour') {
+            if(data.body.length > 399)
+              data.body = data.body.substring(0, 400)+"...";
+            this.dataArray.push(data);
+          }
+      });
+    }).then(() => {
+      if((numberOfArticles % 3) == 1) {
+        // We need two place holders
+        var jsonPass = {title: "Did You Know?", body: "Body", subTitle: "Contracts", image:"audit.jpg", Id: "Contracts"};
+        this.dataArray.push(jsonPass);
+        jsonPass = {title: "Did You Know?", body: "Body", subTitle: "Labour", image:"construction.jpg", Id: "Labour"};
+        this.dataArray.push(jsonPass);
+      } else if ((numberOfArticles % 3) == 2) {
+        // We need one place holder
+        var jsonPass = {title: "Did You Know?", body: "Body", subTitle: "Labour", image:"construction.jpg", Id: "Labour"};
+        this.dataArray.push(jsonPass);
+      }
+      var length = this.dataArray.length;
+      var counter = 0;
+      while (counter < length) {
+        // var ele = document.createElement('article-row');
+        // var arrayPass = [];
+        var cardEle = document.createElement('article-card');
+          cardEle.setAttribute('data',JSON.stringify(this.dataArray[counter]));
+          this.shadowRoot.querySelector('#articles').appendChild(cardEle);
+          counter++;
+        for(var a = 0; a < 3; a++) {
+          arrayPass.push(this.dataArray[counter]);
+          var cardEle = document.createElement('article-card');
+          cardEle.setAttribute('data',JSON.stringify(this.dataArray[counter]));
+          this.shadowRoot.querySelector('#articles').appendChild(cardEle);
+          counter++;
+        }
+        // ele.setAttribute('data',JSON.stringify(arrayPass));
+        // this.shadowRoot.querySelector('#articles').appendChild(ele);
+      }
+      this.shadowRoot.querySelector('#articles').style.display = "block";
+      this.shadowRoot.querySelector('#loader').style.display = "none";
+    });
+      this.shadowRoot.querySelector('#articles').style.display = "block";
+      this.shadowRoot.querySelector('#loader').style.display = "none";
+ */

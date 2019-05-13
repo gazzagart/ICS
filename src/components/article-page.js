@@ -6,7 +6,8 @@ import { SharedStyles } from './shared-styles.js';
 import{ w3css } from './w3-css.js';
 
 import '@polymer/paper-spinner/paper-spinner';
-import './article-row.js';
+// import './article-row.js';
+import './article-card.js';
 
 
 class ArticlePage extends PageViewElement {
@@ -64,28 +65,13 @@ class ArticlePage extends PageViewElement {
           }
       });
     }).then(() => {
-      if((numberOfArticles % 3) == 1) {
-        // We need two place holders
-        var jsonPass = {title: "Did You Know?", body: "Body", subTitle: "Contracts", image:"audit.jpg", Id: "Contracts"};
-        this.dataArray.push(jsonPass);
-        jsonPass = {title: "Did You Know?", body: "Body", subTitle: "Labour", image:"construction.jpg", Id: "Labour"};
-        this.dataArray.push(jsonPass);
-      } else if ((numberOfArticles % 3) == 2) {
-        // We need one place holder
-        var jsonPass = {title: "Did You Know?", body: "Body", subTitle: "Labour", image:"construction.jpg", Id: "Labour"};
-        this.dataArray.push(jsonPass);
-      }
       var length = this.dataArray.length;
       var counter = 0;
       while (counter < length) {
-        var ele = document.createElement('article-row');
-        var arrayPass = [];
-        for(var a = 0; a < 3; a++) {
-          arrayPass.push(this.dataArray[counter]);
-          counter++;
-        }
-        ele.setAttribute('data',JSON.stringify(arrayPass));
-        this.shadowRoot.querySelector('#articles').appendChild(ele);
+        var cardEle = document.createElement('article-card');
+        cardEle.setAttribute('data',JSON.stringify(this.dataArray[counter]));
+        this.shadowRoot.querySelector('#articles').appendChild(cardEle);
+        counter++;
       }
       this.shadowRoot.querySelector('#articles').style.display = "block";
       this.shadowRoot.querySelector('#loader').style.display = "none";
