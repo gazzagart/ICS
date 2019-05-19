@@ -6,7 +6,6 @@ import { SharedStyles } from './shared-styles.js';
 import{ w3css } from './w3-css.js';
 
 import '@polymer/paper-spinner/paper-spinner';
-// import './article-row.js';
 import './article-card.js';
 
 

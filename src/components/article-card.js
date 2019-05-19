@@ -5,6 +5,8 @@ import { SharedStyles } from './shared-styles.js';
 import{ w3css } from './w3-css.js';
 
 import '@polymer/paper-button/paper-button.js';
+import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/iron-icons/iron-icons.js';
 
 
     class ArticleCard extends LitElement {
@@ -51,19 +53,27 @@ import '@polymer/paper-button/paper-button.js';
             <div class="w3-center">
                 <paper-button @click="${() => {window.location.href = "/single-article#" + this.data.Id;}}" raised class="w3-indigo">open article</paper-button>
             </div>
+            <div class="w3-row w3-section w3-stretch w3-center w3-border-top">
+                <div class="w3-col l6 m6 w3-container">
+                    <div class="w3-medium"><iron-icon icon="face"></iron-icon> ${this.data.views}</div>
+                </div>
+                <div class="w3-col l6 m6 w3-container">
+                    <div class="w3-medium"><iron-icon icon="thumb-up"></iron-icon> ${this.data.likes}</div>
+                </div>
+            </div>
         </div>
         <div class="w3-container w3-col l4 m6">
             <div class="loader" style="text-align:center!important;margin-top:32px;">
                 <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
             </div>
             <div class="w3-center w3-margin">
-                <img src="" crossorigin="anonymous" class="w3-image w3-round-large img" style="max-height:220px;">
+                <img src="" crossorigin="anonymous" class="w3-image w3-round-large img" style="height:inherit;">
             </div>
         </div>
     </div>
     <!-- END OF SINGLE ROW ARTICLE LARGE MEDIUM SCREEN-->
     <!-- SINGLE ROW ARTICLE SMALL SCREEN-->
-    <div class="w3-row w3-section w3-stretch w3-center w3-card-4 w3-hide-medium w3-hide-large" style="padding-bottom:16px; margin-right: 16px; margin-left: 16px;">
+    <div class="w3-row-padding w3-section w3-stretch w3-center w3-card-4 w3-hide-medium w3-hide-large" style="padding-bottom:16px; margin-right: 16px; margin-left: 16px;">
         <div class="w3-container w3-col s12">
             <div class="loader" style="text-align:center!important;margin-top:32px;">
                 <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
@@ -79,6 +89,12 @@ import '@polymer/paper-button/paper-button.js';
             <div class="w3-center">
                 <paper-button @click="${() => {window.location.href = "/single-article#" + this.data.Id;}}" raised class="w3-indigo">open article</paper-button>
             </div>
+        </div>
+        <div class="w3-col s6 w3-container w3-border-top">
+            <div class="w3-medium"><iron-icon icon="face"></iron-icon> ${this.data.views}</div>
+        </div>
+        <div class="w3-col s6 w3-container w3-border-top">
+            <div class="w3-medium"><iron-icon icon="thumb-up"></iron-icon> ${this.data.views}</div>
         </div>
     </div>
     <!-- END OF SINGLE ROW ARTICLE SMALL SCREEN-->

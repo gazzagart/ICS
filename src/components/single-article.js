@@ -6,6 +6,9 @@ import { SharedStyles } from './shared-styles.js';
 import{ w3css } from './w3-css.js';
 
 import '@polymer/paper-spinner/paper-spinner';
+import '@polymer/paper-button/paper-button.js';
+import '@polymer/paper-icon-button/paper-icon-button.js';
+import '@polymer/iron-icons/iron-icons.js';
 import './snack-bar.js';
 
 
@@ -21,9 +24,12 @@ class SingleArticle extends PageViewElement {
             title: { type: String},
             subTitle: { type: String},
             body: { type: String},
+            views: {type: Number},
+            likes: {type: Number},
             articleMessage: { type: String},
             toastOpened: {type: Boolean},
-            colourSnack: {type: String}
+            colourSnack: {type: String},
+            user: {type: Boolean}
         };
     }
 
@@ -76,6 +82,9 @@ class SingleArticle extends PageViewElement {
                 max-height:400px;
             }
         }
+        paper-icon-button:hover {
+            color: #009688;
+        }
     </style>
         <!-- Article section -->
         <div id="loader" style="text-align:center!important;margin-top:32px;">
@@ -102,6 +111,19 @@ class SingleArticle extends PageViewElement {
                     </p>
                 </div>
             </div>
+            <div class="w3-row w3-section w3-stretch w3-center w3-border-top">
+                <div class="w3-col l6 m6 s6 w3-container">
+                    <div class="w3-medium"><paper-icon-button icon="face"></paper-icon-button> ${this.views}</div>
+                </div>
+                <div class="w3-col l6 m6 s6 w3-container">
+                    <div class="w3-medium">
+                        <paper-icon-button @click="${this._likeArticle}" id="likeButton" icon="thumb-up"></paper-icon-button> 
+                        ${this.likes}
+                        <span id="likesSpin" style="display:none;"><paper-spinner active class="multi"></paper-spinner></span>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-center"><paper-button @click="${this._contactPage}" class="w3-indigo w3-margin">contact page</paper-button></div>
         </div>
         <!-- END OF ARTICLE -->
         <snack-bar ?active="${this.toastOpened}" colour="${this.colourSnack}">
@@ -118,6 +140,8 @@ class SingleArticle extends PageViewElement {
                 if (doc.exists) {
                     // console.log("Document data:", doc.data());
                     let articleData = doc.data();
+                    this.likes = articleData.likes;
+                    this.views = articleData.views;
                     this.title = articleData.title;
                     this.subTitle = articleData.subTitle;
                     // Make sure that we apply the right styles here:
@@ -149,12 +173,77 @@ class SingleArticle extends PageViewElement {
                 this.toastOpened = true;
                 setTimeout(() => {this.toastOpened = false;window.location.href = "/article-page";}, 2000);
             });
+            firebase.auth().onAuthStateChanged((user) => {
+                if(!user) { // If it is not Wazza or me
+                    // if(localStorage.getItem("viewArticle"+ID) == undefined) {}
+                    //? We don't need to make sure if they have seen this before?
+                    var viewsPass = 0;
+                    db.collection("articles").doc(ID).get().then((doc) => {
+                        viewsPass = doc.data().views + 1;
+                    }).then(() => {
+                        db.collection("articles").doc(ID).update({
+                            views: viewsPass
+                        }).then(() => {
+                            this.views = viewsPass;
+                        });
+                        this.views = viewsPass;
+                        console.log(viewsPass);
+                        console.log(this.views);
+                    });
+                    this.user = false;
+                } else {
+                    this.user = true;
+                }
+                });
+                if(localStorage.getItem("article"+ID) != undefined) {
+                    this.shadowRoot.querySelector("#likeButton").style.color = "#009688";
+                }
         } else {
             this.colourSnack = "#f44336";
             this.articleMessage = "No article selected... Rerouting.";
             this.toastOpened = true;
             setTimeout(() => {this.toastOpened = false;window.location.href = "/article-page";}, 2000);
         }
+    }
+
+    _likeArticle () {
+        var ID = window.location.hash.substr(1);
+        if(localStorage.getItem("article"+ID) == undefined && !this.user) {
+            var likesPass = 0;
+            this.shadowRoot.querySelector("#likesSpin").style.display = "block";
+            var db = firebase.firestore();
+            db.collection("articles").doc(ID).get().then((doc) => {
+                likesPass = doc.data().likes + 1;
+            }).then(() => {
+                db.collection("articles").doc(ID).update({
+                    likes: likesPass
+                }).then(() => {
+                    localStorage.setItem("article"+ID, true);
+                    this.likes = likesPass;
+                    this.shadowRoot.querySelector("#likesSpin").style.display = "none";
+                    this.colourSnack = "#4caf50";
+                    this.articleMessage = "Article liked.";
+                    this.toastOpened = true;
+                    setTimeout(() => {this.toastOpened = false;}, 2000);
+                });
+            }).catch(() => {
+                this.shadowRoot.querySelector("#likesSpin").style.display = "none";
+            });
+        } else if (this.user) {
+            this.colourSnack = "#f44336";
+            this.articleMessage = "Don't like your own work... It's Tacky.";
+            this.toastOpened = true;
+            setTimeout(() => {this.toastOpened = false;}, 2000);
+        } else {
+            this.colourSnack = "#f44336";
+            this.articleMessage = "You have already liked this article.";
+            this.toastOpened = true;
+            setTimeout(() => {this.toastOpened = false;}, 2000);
+        }
+    }
+
+    _contactPage() {
+        window.location.href = "/contact-us";
     }
 
 }

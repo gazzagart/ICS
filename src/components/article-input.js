@@ -18,7 +18,7 @@ import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-spinner/paper-spinner';
 import './drag-drop.js';
 import './snack-bar.js';
-import './article-row.js';
+import './article-card.js';
 
 
 class ArticleInput extends PageViewElement {
@@ -100,7 +100,7 @@ constructor () {
           <div id="inputArea">
               <paper-input required error-message="Please provide a Title" id="titleInput" label="Title" type="text"></paper-input>
               <paper-input id="subTitleInput" label="Sub Title" type="text"></paper-input>
-              <paper-textarea  on-value-changed="${this._test}" required error-message="Please provide a body" id="bodyInput" label="Body"></paper-textarea>
+              <paper-textarea required error-message="Please provide a body" id="bodyInput" label="Body"></paper-textarea>
               <br>
               <paper-button raised  @click="${this._addImage}" id="addImageButton" class="w3-indigo">add image</paper-button>
               <drag-drop id="dragDrop" style="display:none;"></drag-drop>
@@ -148,38 +148,19 @@ constructor () {
           }
       });
     }).then(() => {
-      if((numberOfArticles % 3) == 1) {//? 1 article.
-        // We need two place holders
-        var jsonPass = {title: "Did You Know?", body: "Body", subTitle: "Contracts", image:"audit.jpg", Id: "Contracts"};
-        this.dataArray.push(jsonPass);
-        jsonPass = {title: "Did You Know?", body: "Body", subTitle: "Labour", image:"construction.jpg", Id: "Labour"};
-        this.dataArray.push(jsonPass);
-      } else if ((numberOfArticles % 3) == 2) {
-        // We need one place holder
-        var jsonPass = {title: "Did You Know?", body: "Body", subTitle: "Labour", image:"construction.jpg", Id: "Labour"};
-        this.dataArray.push(jsonPass);
-      }
       var length = this.dataArray.length;
       var counter = 0;
       while (counter < length) {
-        var ele = document.createElement('article-row');
-        var arrayPass = [];
-        for(var a = 0; a < 3; a++) {
-          arrayPass.push(this.dataArray[counter]);
-          counter++;
-        }
-        ele.setAttribute('data',JSON.stringify(arrayPass));
-        this.shadowRoot.querySelector('#articles').appendChild(ele);
+        var cardEle = document.createElement('article-card');
+        cardEle.setAttribute('data',JSON.stringify(this.dataArray[counter]));
+        this.shadowRoot.querySelector('#articles').appendChild(cardEle);
+        counter++;
       }
       this.shadowRoot.querySelector('#articles').style.display = "block";
       this.shadowRoot.querySelector('#loader').style.display = "none";
     });
       this.shadowRoot.querySelector('#articles').style.display = "block";
       this.shadowRoot.querySelector('#loader').style.display = "none";
-  }
-
-  _test () {
-    console.log("go g");
   }
 
   _editArticles () {
@@ -233,7 +214,9 @@ constructor () {
       subTitle: subTitle,
       image: imageName,
       imageMeta: imageMeta,
-      date: firebase.firestore.Timestamp.fromDate(new Date())
+      date: firebase.firestore.Timestamp.fromDate(new Date()),
+      likes: 0,
+      views: 0
     })
     .then((docRef) => {
         this.colourSnack = "#4caf50";
