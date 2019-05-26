@@ -27,7 +27,7 @@ const rendertronMiddleware = rendertron.makeMiddleware({
 });
 
 app.use((req, res, next) => {
-  req.headers['host'] = '<YOUR HOST URL HERE>';
+  req.headers['host'] = '${process.env.GCLOUD_PROJECT}.firebaseapp.com';
   return rendertronMiddleware(req, res, next);
 });
 

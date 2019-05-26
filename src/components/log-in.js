@@ -20,28 +20,28 @@ import './snack-bar.js';
 import { SharedStyles } from './shared-styles.js';
 
 class LoginPage extends PageViewElement {
-  static get styles() {
-    return [
-      SharedStyles
-    ];
-  }
+    static get styles() {
+        return [
+            SharedStyles
+        ];
+    }
 
-  static get properties() {
+static get properties() {
     return {
         toastOpened: {type: Boolean},
         colourSnack: {type: String}
     };
 }
 
-  constructor () {
+constructor () {
     super();
     this.toastOpened = false;
     this.colourSnack = "";
 }
 
-  render() {
+render() {
     return html`
-      <style>
+        <style>
             paper-button.indigo {
                 background-color: var(--paper-indigo-500);
                 color: white;
@@ -74,11 +74,11 @@ class LoginPage extends PageViewElement {
                     <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
                 </div>
             </section>
-            <snack-bar ?active="${this.toastOpened}" colour="${this.colourSnack}">
+            <snack-bar ?active="${this.toastOpened}" style="background-color: ${this.colourSnack};">
                 You are ${this.loggedIn ? 'logged in' : 'not logged in: please try again'}.
             </snack-bar>
     `;
-  }
+}
 
     _logIn() {
         var email = this.shadowRoot.querySelector("#email");

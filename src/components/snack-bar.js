@@ -13,18 +13,9 @@ import { LitElement, html } from 'lit-element';
 class SnackBar extends LitElement {
   static get properties() {
     return {
-      active: { type: Boolean },
-      colour: {type: String}
+      active: { type: Boolean }
     };
   }
-
-  // static get styles() {
-  //   return [
-  //     css`
-        
-  //     `
-  //   ];
-  // }
 
   render() {
     return html`
@@ -37,7 +28,6 @@ class SnackBar extends LitElement {
           right: 0;
           z-index:103;
           padding: 12px;
-          background-color: ${this.colour};
           color: white;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
           text-align: center;

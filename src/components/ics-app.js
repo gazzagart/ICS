@@ -242,7 +242,7 @@ class MyApp extends connect(store)(LitElement) {
         <p><span class="w3-large" style="font-family: 'ICSFont';">I N T E G R A L&nbsp;&nbsp;&nbsp;</span> Professional service, excellent results.</p>
       </footer>
 
-      <snack-bar ?active="${this._snackbarOpened}" colour="#1e88e5">
+      <snack-bar ?active="${this._snackbarOpened}" style="background-color: #1e88e5;">
         You are now ${this._offline ? 'offline' : 'online'}.
       </snack-bar>
     `;

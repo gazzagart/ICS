@@ -96,11 +96,20 @@ constructor () {
       <!-- End of articles -->
       <!-- INPUT DIALOG -->
       <paper-dialog modal id="articleInput" entry-animation="scale-up-animation" exit-animation="fade-out-animation" style="border-radius: 16px;overflow: auto;padding-bottom:500px;">
-        <h2>Header</h2>
+        <h2>article input</h2>
           <div id="inputArea">
               <paper-input required error-message="Please provide a Title" id="titleInput" label="Title" type="text"></paper-input>
               <paper-input id="subTitleInput" label="Sub Title" type="text"></paper-input>
               <paper-textarea required error-message="Please provide a body" id="bodyInput" label="Body"></paper-textarea>
+              <br>
+              <div class="w3-center">
+                <paper-button raised  @click="${this._makeBold}" id="addImageButton" class="w3-deep-purple">bold</paper-button>
+                <paper-button raised  @click="${this._makeItalics}" id="addImageButton" class="w3-teal">italics</paper-button>
+              </div>
+              <br>
+              <div class="w3-center">
+                <paper-button raised  @click="${this._makeUnderline}" id="addImageButton" class="w3-amber">underline</paper-button>
+              </div>
               <br>
               <paper-button raised  @click="${this._addImage}" id="addImageButton" class="w3-indigo">add image</paper-button>
               <drag-drop id="dragDrop" style="display:none;"></drag-drop>
@@ -114,7 +123,7 @@ constructor () {
           </div>
       </paper-dialog>
       <!-- INPUT DIALOG FINISHED -->
-      <snack-bar ?active="${this.toastOpened}" colour="${this.colourSnack}">
+      <snack-bar ?active="${this.toastOpened}" style="background-color: ${this.colourSnack};">
           ${this.articleMessage}.
       </snack-bar>
           `;
@@ -161,6 +170,7 @@ constructor () {
     });
       this.shadowRoot.querySelector('#articles').style.display = "block";
       this.shadowRoot.querySelector('#loader').style.display = "none";
+      this.shadowRoot.querySelector("#bodyInput").value = "";
   }
 
   _editArticles () {
@@ -261,6 +271,18 @@ constructor () {
         return;
     }
     this.shadowRoot.querySelector('#dragDrop').style.display = 'block';
+  }
+
+  _makeBold () {
+    this.shadowRoot.querySelector("#bodyInput").value = this.shadowRoot.querySelector("#bodyInput").value + "*PUT BOLD TEXT HERE*";
+  }
+
+  _makeItalics () {
+    this.shadowRoot.querySelector("#bodyInput").value = this.shadowRoot.querySelector("#bodyInput").value + "__put italics text here__";
+  }
+
+  _makeUnderline () {
+    this.shadowRoot.querySelector("#bodyInput").value = this.shadowRoot.querySelector("#bodyInput").value + "~put underline text here~";
   }
 
   _closeModal () {

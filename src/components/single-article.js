@@ -24,8 +24,6 @@ class SingleArticle extends PageViewElement {
             title: { type: String},
             subTitle: { type: String},
             body: { type: String},
-            views: {type: Number},
-            likes: {type: Number},
             articleMessage: { type: String},
             toastOpened: {type: Boolean},
             colourSnack: {type: String},
@@ -103,30 +101,18 @@ class SingleArticle extends PageViewElement {
                         </div>
                 </div>
                 <div class="w3-col l12 m12 s12">
-                    <p class="w3-justify w3-margin w3-large w3-hide-large w3-hide-medium" style="white-space: pre-wrap;padding-left:20px;padding-right:20px;">${this.body}
+                    <p class="w3-justify w3-margin w3-large w3-hide-large w3-hide-medium body" style="white-space: pre-wrap;padding-left:20px;padding-right:20px;">
                     </p>
-                    <p class="w3-justify w3-margin w3-large w3-hide-large w3-hide-small" style="white-space: pre-wrap;padding-left:50px;padding-right:50px;">${this.body}
+                    <p class="w3-justify w3-margin w3-large w3-hide-large w3-hide-small body" style="white-space: pre-wrap;padding-left:50px;padding-right:50px;">
                     </p>
-                    <p class="w3-justify w3-margin w3-large w3-hide-small w3-hide-medium" style="white-space: pre-wrap;padding-left:100px;padding-right:100px;">${this.body}
+                    <p class="w3-justify w3-margin w3-large w3-hide-small w3-hide-medium body" style="white-space: pre-wrap;padding-left:100px;padding-right:100px;">
                     </p>
-                </div>
-            </div>
-            <div class="w3-row w3-section w3-stretch w3-center w3-border-top">
-                <div class="w3-col l6 m6 s6 w3-container">
-                    <div class="w3-medium"><paper-icon-button icon="face"></paper-icon-button> ${this.views}</div>
-                </div>
-                <div class="w3-col l6 m6 s6 w3-container">
-                    <div class="w3-medium">
-                        <paper-icon-button @click="${this._likeArticle}" id="likeButton" icon="thumb-up"></paper-icon-button> 
-                        ${this.likes}
-                        <span id="likesSpin" style="display:none;"><paper-spinner active class="multi"></paper-spinner></span>
-                    </div>
                 </div>
             </div>
             <div class="w3-center"><paper-button @click="${this._contactPage}" class="w3-indigo w3-margin">contact page</paper-button></div>
         </div>
         <!-- END OF ARTICLE -->
-        <snack-bar ?active="${this.toastOpened}" colour="${this.colourSnack}">
+        <snack-bar ?active="${this.toastOpened}" style="background-color: ${this.colourSnack};">
             ${this.articleMessage}
         </snack-bar>
             `;
@@ -136,17 +122,13 @@ class SingleArticle extends PageViewElement {
         if(window.location.hash.substr(1)) {
             var ID = window.location.hash.substr(1);
             var db = firebase.firestore();
+            var bodyElems = this.shadowRoot.querySelectorAll(".body");
             db.collection("articles").doc(ID).get().then((doc) => {
                 if (doc.exists) {
-                    // console.log("Document data:", doc.data());
                     let articleData = doc.data();
-                    this.likes = articleData.likes;
-                    this.views = articleData.views;
                     this.title = articleData.title;
                     this.subTitle = articleData.subTitle;
-                    // Make sure that we apply the right styles here:
                     this.body = articleData.body;
-                    this.body =  this.body.replace(/\\n/g, '\n');
                     // Get the img that is with the article
                     var ele = this.shadowRoot.querySelector('#img');
                     var storage = firebase.storage();
@@ -165,9 +147,68 @@ class SingleArticle extends PageViewElement {
                     setTimeout(() => {this.toastOpened = false;window.location.href = "/article-page";}, 2000);
                 }
             }).then(() => {
+                const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
+                const phoneNumbersRegex = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/gi;
+                const boldRegex = /\*[\n\t\r\\\.!?@#$%()/"'&[\]<>~_-\w\d\s]+\*/;
+                const italicsRegex = /__[\n\t\r\\\.\*!?@#$%()/"'&[\]<>~-\w\d\s]+__/;
+                const underlineRegex = /~[\n\t\r\\\.\*!?@#$%()/"'&[\]<>_-\w\d\s]+~/;
+                var body = this.body.replace(emailRegex,'<span class="w3-text-blue w3-hover-opacity"><a href="mailto:$1">$1</a></span>');
+                //! We are still hard coding the number. We need to find a reliable number regex.
+                body = body.replace(phoneNumbersRegex, '<span class="w3-text-blue-grey w3-large"><b><a class="w3-hide-large w3-hide-medium" href="tel:010-500-0960">(010) 500 0960</a><span class="w3-hide-small">(010) 500 0960</span></b></span>');
+                //Now we need to add bold, underline, italics
+                var indexStart = 0;
+                while(body.indexOf("~", indexStart) != -1) {
+                    var indexOne = 0;
+                    var indexTwo = 0;
+                    var stringExtract = "";
+                    indexOne = body.indexOf("~", indexStart) + 1;
+                    indexTwo = body.indexOf("~", indexOne);
+                    if(indexOne != 0 && indexTwo != -1) {
+                        stringExtract = body.substring(indexOne, indexTwo);
+                        body = body.replace(underlineRegex, '<span style="text-decoration: underline;">'+stringExtract+'</span>');
+                        indexStart = indexTwo + 1;
+                    } else {
+                        indexStart = indexTwo;
+                    }
+                }
+                indexStart = 0;
+                while(body.indexOf("__", indexStart) != -1) {
+                    var indexOne = 0;
+                    var indexTwo = 0;
+                    var stringExtract = "";
+                    indexOne = body.indexOf("__", indexStart) + 2;
+                    indexTwo = body.indexOf("__", indexOne);
+                    if(indexOne != 0 && indexTwo != -1) {
+                        stringExtract = body.substring(indexOne, indexTwo);
+                        body = body.replace(italicsRegex, '<span style="font-style: italic;">'+stringExtract+'</span>');
+                        indexStart = indexTwo + 2;
+                    } else {
+                        indexStart = indexTwo;
+                    }
+                }
+                indexStart = 0;
+                while(body.indexOf("\*", indexStart) != -1) {
+                    var indexOne = 0;
+                    var indexTwo = 0;
+                    var stringExtract = "";
+                    indexOne = body.indexOf("\*", indexStart) + 1;
+                    indexTwo = body.indexOf("\*", indexOne);
+                    if(indexOne != 0 && indexTwo != -1) {
+                        stringExtract = body.substring(indexOne, indexTwo);
+                        body = body.replace(boldRegex, '<span style="font-weight: bold;">'+stringExtract+'</span>');
+                        indexStart = indexTwo + 1;
+                    } else {
+                        indexStart = indexTwo;
+                    }
+                }
+                body = body.replace(/\\n/g, '\n');
+                bodyElems.forEach(element => {
+                    element.innerHTML = body;
+                });
                 this.shadowRoot.querySelector('#articles').style.display = "block";
                 this.shadowRoot.querySelector('#loader').style.display = "none";
             }).catch((error) => {
+                console.error(error);
                 this.colourSnack = "#f44336";
                 this.articleMessage = "This article does not exist.";
                 this.toastOpened = true;
@@ -183,12 +224,7 @@ class SingleArticle extends PageViewElement {
                     }).then(() => {
                         db.collection("articles").doc(ID).update({
                             views: viewsPass
-                        }).then(() => {
-                            this.views = viewsPass;
-                        });
-                        this.views = viewsPass;
-                        console.log(viewsPass);
-                        console.log(this.views);
+                        })
                     });
                     this.user = false;
                 } else {
@@ -203,42 +239,6 @@ class SingleArticle extends PageViewElement {
             this.articleMessage = "No article selected... Rerouting.";
             this.toastOpened = true;
             setTimeout(() => {this.toastOpened = false;window.location.href = "/article-page";}, 2000);
-        }
-    }
-
-    _likeArticle () {
-        var ID = window.location.hash.substr(1);
-        if(localStorage.getItem("article"+ID) == undefined && !this.user) {
-            var likesPass = 0;
-            this.shadowRoot.querySelector("#likesSpin").style.display = "block";
-            var db = firebase.firestore();
-            db.collection("articles").doc(ID).get().then((doc) => {
-                likesPass = doc.data().likes + 1;
-            }).then(() => {
-                db.collection("articles").doc(ID).update({
-                    likes: likesPass
-                }).then(() => {
-                    localStorage.setItem("article"+ID, true);
-                    this.likes = likesPass;
-                    this.shadowRoot.querySelector("#likesSpin").style.display = "none";
-                    this.colourSnack = "#4caf50";
-                    this.articleMessage = "Article liked.";
-                    this.toastOpened = true;
-                    setTimeout(() => {this.toastOpened = false;}, 2000);
-                });
-            }).catch(() => {
-                this.shadowRoot.querySelector("#likesSpin").style.display = "none";
-            });
-        } else if (this.user) {
-            this.colourSnack = "#f44336";
-            this.articleMessage = "Don't like your own work... It's Tacky.";
-            this.toastOpened = true;
-            setTimeout(() => {this.toastOpened = false;}, 2000);
-        } else {
-            this.colourSnack = "#f44336";
-            this.articleMessage = "You have already liked this article.";
-            this.toastOpened = true;
-            setTimeout(() => {this.toastOpened = false;}, 2000);
         }
     }
 

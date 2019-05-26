@@ -77,7 +77,7 @@ class MessageEmail extends connect(store)(LitElement) {
                     <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
                 </div>
             </section>
-            <snack-bar ?active="${this.toastOpened}" colour="${this.colourSnack}">
+            <snack-bar ?active="${this.toastOpened}" style="background-color: ${this.colourSnack};">
                 Your message was ${this.sent ? 'sent' : 'not sent: please try again'}.
             </snack-bar>
         `;

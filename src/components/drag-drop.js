@@ -101,7 +101,7 @@ class DragDrop extends LitElement {
     </div>
     <div id="gallery"></div>
     </div>
-    <snack-bar ?active="${this.toastOpened}" colour="${this.colourSnack}">
+    <snack-bar ?active="${this.toastOpened}" style="background-color: ${this.colourSnack};">
         ${this.articleMessage}.
     </snack-bar>
     `;
