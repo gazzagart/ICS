@@ -3,7 +3,6 @@ import { PageViewElement } from './page-view-element.js';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
-import{ w3css } from './w3-css.js';
 
 import '@polymer/paper-spinner/paper-spinner';
 import './article-card.js';
@@ -12,8 +11,7 @@ import './article-card.js';
 class ArticlePage extends PageViewElement {
   static get styles() {
     return [
-      SharedStyles,
-      w3css
+      SharedStyles
     ];
   }
   static get properties() {
@@ -36,8 +34,8 @@ class ArticlePage extends PageViewElement {
       <section>
         <h2>Articles</h2>
       </section>
-      <div id="loader" style="text-align:center!important;margin-top:32px;">
-          <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
+      <div id="loader" style="text-align:center !important;">
+        <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
       </div>
       <div id="articles" style="display:none;">
       </div>
@@ -50,12 +48,15 @@ class ArticlePage extends PageViewElement {
   }
 
   firstUpdated () {
+    console.log("Loaded");
+    this.shadowRoot.querySelector('#loader').style.display = "block";
+    this.shadowRoot.querySelector('#articles').style.display = "none";
     var db = firebase.firestore();
     var numberOfArticles = 0;
     db.collection("articles").orderBy("date", "desc").limit(12).get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
           let data = doc.data();
-          data.Id = doc.id;
+          data.id = doc.id;
           if(doc.id == 'articleCount') numberOfArticles = data.count;
           else if(doc.id != 'Contracts' && doc.id != 'Labour') {
             if(data.body.length > 399)
@@ -74,9 +75,11 @@ class ArticlePage extends PageViewElement {
       }
       this.shadowRoot.querySelector('#articles').style.display = "block";
       this.shadowRoot.querySelector('#loader').style.display = "none";
-    });
+    }).catch((e)=> {
+      console.error(e);
       this.shadowRoot.querySelector('#articles').style.display = "block";
       this.shadowRoot.querySelector('#loader').style.display = "none";
+    });
   }
 
 }

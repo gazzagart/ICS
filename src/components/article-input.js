@@ -15,7 +15,8 @@ import '@polymer/neon-animation/animations/scale-up-animation.js';
 import '@polymer/neon-animation/animations/fade-out-animation.js';
 import '@polymer/paper-input/paper-textarea.js'
 import '@polymer/paper-input/paper-input.js';
-import '@polymer/paper-spinner/paper-spinner';
+import '@polymer/paper-spinner/paper-spinner.js';
+import '@polymer/paper-checkbox/paper-checkbox.js';
 import './drag-drop.js';
 import './snack-bar.js';
 import './article-card.js';
@@ -88,10 +89,12 @@ constructor () {
       <section>
         <h2>Articles</h2>
       </section>
-      <div id="loader" style="text-align:center!important;margin-top:32px;">
-          <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
-      </div>
-      <div id="articles" style="display:none;">
+      <div id="parentOfArticles">
+        <div id="loader" style="text-align:center!important;margin-top:32px;">
+            <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
+        </div>
+        <div id="articles" style="display:none;">
+        </div>
       </div>
       <!-- End of articles -->
       <!-- INPUT DIALOG -->
@@ -123,6 +126,26 @@ constructor () {
           </div>
       </paper-dialog>
       <!-- INPUT DIALOG FINISHED -->
+      <!-- ARE YOU SURE DIALOG -->
+      <paper-dialog modal id="deleteModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" style="border-radius: 16px;overflow: auto;padding-bottom:50px;">
+        <h2>are you sure??</h2>
+          <div class="w3-center w3-xxlarge">
+            <p>You are about to delete this selection. This cannot be undone.</p>
+          </div>
+          <div>
+            <div class="w3-center">
+              <paper-button raised @click="${this._deleteSelection}" class="w3-red">yes i am sure!!</paper-button>
+              <paper-button raised  @click="${this._closeDeleteModal}" id="submitButton" class="w3-indigo">go back</paper-button>
+            </div>
+          </div>
+      </paper-dialog>
+      <!-- ARE YOU SURE DIALOG FINISHED -->
+      <div id="deleteBar" class="w3-card-4 w3-white w3-animate-bottom" style="display:none;position: sticky; height: 60px; width: 100vw; z-index: 3; bottom: 0px;text-align:center!important;">
+        <div style="padding-top: 10px;">
+          <paper-button raised @click="${this._openDeleteModal}" class="w3-red">delete selection</paper-button>
+          <paper-button raised @click="${this._cancelDelete}" class="w3-amber">cancel</paper-button>
+        </div>
+      </div>
       <snack-bar ?active="${this.toastOpened}" style="background-color: ${this.colourSnack};">
           ${this.articleMessage}.
       </snack-bar>
@@ -132,6 +155,7 @@ constructor () {
   firstUpdated () {
     firebase.auth().onAuthStateChanged((user) => {
       if(user) {
+        this._getArticles();
         this.colourSnack = "#4caf50";
         this.articleMessage = "Welcome back Warwick.";
         this.toastOpened = true;
@@ -144,16 +168,29 @@ constructor () {
         setTimeout(() => {this.toastOpened = false;window.location.href = "/home-page";}, 2000);
       }
     });
+      this.shadowRoot.querySelector("#bodyInput").value = "";
+  }
+
+  _getArticles () {
+    // for (let a = 0; a < this.shadowRoot.querySelector("#parentOfArticles").childNodes.length; a++) {
+    //   if(this.shadowRoot.querySelector("#parentOfArticles").childNodes[a].id == "articles") {
+    //     this.shadowRoot.querySelector("#parentOfArticles").removeChild(this.shadowRoot.querySelector("#parentOfArticles").childNodes[a]);
+    //   }
+    // }
+    // var articleHolder = document.createElement("div");
+    // articleHolder.id = "articles";
+    // this.shadowRoot.querySelector("#parentOfArticles").appendChild(articleHolder);
     var db = firebase.firestore();
     var numberOfArticles = 0;
     db.collection("articles").orderBy("date", "desc").limit(12).get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
           let data = doc.data();
+          data.id = doc.id;
           if(doc.id == 'articleCount') numberOfArticles = data.count;
           else if(doc.id != 'Contracts' && doc.id != 'Labour') {
             if(data.body.length > 399)
               data.body = data.body.substring(0, 400)+"...";
-            this.dataArray.push(data);
+              this.dataArray.push(data);
           }
       });
     }).then(() => {
@@ -168,9 +205,6 @@ constructor () {
       this.shadowRoot.querySelector('#articles').style.display = "block";
       this.shadowRoot.querySelector('#loader').style.display = "none";
     });
-      this.shadowRoot.querySelector('#articles').style.display = "block";
-      this.shadowRoot.querySelector('#loader').style.display = "none";
-      this.shadowRoot.querySelector("#bodyInput").value = "";
   }
 
   _editArticles () {
@@ -232,7 +266,7 @@ constructor () {
         this.colourSnack = "#4caf50";
         this.articleMessage = "Article writtenwith ID: " + docRef.id;
         this.toastOpened = true;
-        setTimeout(() => {this.toastOpened = false;}, 2000);
+        setTimeout(() => {this.toastOpened = false;}, 1500);
         this.shadowRoot.querySelector('#inputArea').style.display = 'block';
         this.shadowRoot.querySelector('#loader2').style.display = 'none';
         this.shadowRoot.querySelector("#articleInput").close();
@@ -244,10 +278,13 @@ constructor () {
           docRef.update({
             count: articleCount,
             date: firebase.firestore.Timestamp.fromDate(new Date()) // So that we always get this in limit query by desc
-            }).then(function() {
+            }).then(() => {
               console.log("Document successfully updated!");
+              this.shadowRoot.querySelector('#articles').style.display = "none";
+              this.shadowRoot.querySelector('#loader').style.display = "block";
+              setTimeout(() => {location.reload();}, 1000);
           })
-          .catch(function(error) {
+          .catch((error) => {
               // The document probably doesn't exist.
               console.error("Error updating document: ", error);
           });
@@ -259,6 +296,89 @@ constructor () {
         this.shadowRoot.querySelector('#loader2').style.display = 'none';
     });
 
+  }
+
+  _deleteArticles () {
+    var elementArray = this.shadowRoot.querySelector("#articles").childNodes;
+    for (let a = 0; a < elementArray.length; a++) {
+        if(elementArray[a].nodeName == "ARTICLE-CARD") {
+          var elemArray = elementArray[a].shadowRoot.querySelectorAll(".checkBox");
+          elemArray.forEach(element => {
+            element.checked = false;
+            element.style.display = "block";
+          });
+        }
+    }
+    this.shadowRoot.querySelector("#deleteBar").style.display = "block";
+  }
+  _cancelDelete () {
+    var elementArray = this.shadowRoot.querySelector("#articles").childNodes;
+    for (let a = 0; a < elementArray.length; a++) {
+        if(elementArray[a].nodeName == "ARTICLE-CARD") {
+          var elemArray = elementArray[a].shadowRoot.querySelectorAll(".paper-checkbox");
+          elemArray.forEach(element => {
+            element.checked = false;
+            element.style.display = "none";
+          });
+        }
+    }
+    this.shadowRoot.querySelector("#deleteBar").style.display = "none";
+  }
+  _areYouSure(){
+
+  }
+  _deleteSelection () {
+    this._closeDeleteModal();
+    this.shadowRoot.querySelector("#deleteBar").style.display = "none";
+    this.shadowRoot.querySelector("#loader").style.display = "block";
+    this.shadowRoot.querySelector("#articles").style.display = "none";
+    var elementArray = this.shadowRoot.querySelector("#articles").childNodes;
+    var numCheck = 0;
+    for (let a = 0; a < elementArray.length; a++) {
+        numCheck++;
+        if(elementArray[a].nodeName == "ARTICLE-CARD") {
+          var elemArray = elementArray[a].shadowRoot.querySelectorAll(".paper-checkbox");
+          elemArray.forEach(element => {
+            if(element.checked == true) {
+              var parentElem = element;
+              while(parentElem.id != "parent") {
+                parentElem = parentElem.parentNode;
+              }
+              var idOfDoc = parentElem.getAttribute("data-id");
+              var picOfDoc = parentElem.getAttribute("data-img");
+              var db = firebase.firestore();
+              db.collection("articles").doc(idOfDoc).delete().then(() => {
+                var storage = firebase.storage();
+                // Create a storage reference from our storage service
+                var storageRef = storage.ref();
+                var imgRef = storageRef.child('articleImages/'+picOfDoc);
+                console.log(picOfDoc);
+                // Delete the file
+                imgRef.delete().then(() => {
+                  // File deleted successfully
+                  console.log("Document successfully deleted!");
+                  this.colourSnack = "#4caf50";
+                  this.articleMessage = "Documents deleted.";
+                  this.toastOpened = true;
+                  setTimeout(() => {this.toastOpened = false;}, 1500);
+                }).then(() => {
+                  if(numCheck == elementArray.length){
+                    this.shadowRoot.querySelector('#articles').style.display = "none";
+                    this.shadowRoot.querySelector('#loader').style.display = "block";
+                    setTimeout(() => {location.reload();}, 2000);
+                  }
+                });
+              }).catch((error) => {
+                  console.error("Error removing document: ", error);
+                  this.colourSnack = "#f44336";
+                  this.articleMessage = "Documents not deleted! Error.";
+                  this.toastOpened = true;
+                  setTimeout(() => {this.toastOpened = false;}, 2000);
+              });
+            }
+          });
+        }
+    }
   }
   _addImage () {
     var title = this.shadowRoot.querySelector('#titleInput').value;
@@ -283,6 +403,14 @@ constructor () {
 
   _makeUnderline () {
     this.shadowRoot.querySelector("#bodyInput").value = this.shadowRoot.querySelector("#bodyInput").value + "~put underline text here~";
+  }
+
+  _openDeleteModal () {
+    this.shadowRoot.querySelector("#deleteModal").open();
+  }
+
+  _closeDeleteModal () {
+    this.shadowRoot.querySelector("#deleteModal").close();
   }
 
   _closeModal () {

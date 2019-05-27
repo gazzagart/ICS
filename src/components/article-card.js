@@ -4,6 +4,7 @@ import { LitElement, html } from 'lit-element';
 import { SharedStyles } from './shared-styles.js';
 import{ w3css } from './w3-css.js';
 
+import '@polymer/paper-checkbox/paper-checkbox.js';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/iron-icons/iron-icons.js';
@@ -42,48 +43,63 @@ import '@polymer/iron-icons/iron-icons.js';
             -ms-transform: translate(0%, -50%);
             transform: translate(0%, -50%);
         }
+        paper-checkbox.red {
+            --paper-checkbox-size: 2em;
+            --paper-checkbox-checked-color: var(--paper-red-500);
+            --paper-checkbox-checked-ink-color: var(--paper-red-500);
+            --paper-checkbox-unchecked-color: var(--paper-red-900);
+            --paper-checkbox-unchecked-ink-color: var(--paper-red-900);
+            --paper-checkbox-label-color: var(--paper-red-700);
+            --paper-checkbox-vertical-align: top;
+        }
     </style>
-    <!-- SINGLE ROW ARTICLE LARGE MEDIUM SCREEN-->
-    <div class="w3-row w3-section w3-stretch w3-center w3-card-4 w3-hide-small" style="padding-bottom:16px; margin-right: 32px; margin-left: 32px;">
-        <div class="w3-container w3-col l8 m6">
-            <h4>${this.data.title}</h4>
-            <p class="w3-medium w3-left-align w3-text-grey w3-margin-left">${this.data.subTitle}</p>
-            <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom w3-hide-medium w3-hide-small body" style="text-align: justify !important;"></p>
-            <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom w3-hide-large w3-hide-small body" style="text-align: justify !important;"></p>
-            <div class="w3-center">
-                <paper-button @click="${() => {window.location.href = "/single-article#" + this.data.Id;}}" raised class="w3-indigo">open article</paper-button>
+    <div id="parent" data-id="${this.data.id}" data-img="${this.data.image}">
+        <!-- SINGLE ROW ARTICLE LARGE MEDIUM SCREEN-->
+        <div class="w3-row w3-section w3-stretch w3-center w3-card-4 w3-hide-small" style="padding-bottom:16px; margin-right: 32px; margin-left: 32px;">
+            <div class="w3-container w3-col l8 m6">
+                <h4>${this.data.title}</h4>
+                <p class="w3-medium w3-left-align w3-text-grey w3-margin-left">${this.data.subTitle}</p>
+                <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom w3-hide-medium w3-hide-small body" style="text-align: justify !important;"></p>
+                <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom w3-hide-large w3-hide-small body" style="text-align: justify !important;"></p>
+                <div class="w3-center">
+                    <paper-button @click="${() => {window.location.href = "/single-article#" + this.data.id;}}" raised class="w3-indigo">open article</paper-button>
+                </div>
+            </div>
+            <div class="w3-container w3-col l4 m6">
+                <div class="loader" style="text-align:center!important;margin-top:32px;">
+                    <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
+                </div>
+                <div class="w3-center w3-margin">
+                    <img src="" crossorigin="anonymous" class="w3-image w3-round-large img" style="height:inherit;">
+                    <br>
+                    <paper-checkbox class="checkBox red paper-checkbox" style="display:none;">Select</paper-checkbox>
+                </div>
             </div>
         </div>
-        <div class="w3-container w3-col l4 m6">
-            <div class="loader" style="text-align:center!important;margin-top:32px;">
-                <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
+        <!-- END OF SINGLE ROW ARTICLE LARGE MEDIUM SCREEN-->
+        <!-- SINGLE ROW ARTICLE SMALL SCREEN-->
+        <div class="w3-row-padding w3-section w3-stretch w3-center w3-card-4 w3-hide-medium w3-hide-large" style="padding-bottom:16px; margin-right: 16px; margin-left: 16px;">
+            <div class="w3-container w3-col s12">
+                <div class="loader" style="text-align:center!important;margin-top:32px;">
+                    <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
+                </div>
+                <div class="w3-margin" style="text-align:center!important;">
+                    <img src="" crossorigin="anonymous" class="w3-image w3-round-large img" style="max-height:220px;">
+                </div>
             </div>
-            <div class="w3-center w3-margin">
-                <img src="" crossorigin="anonymous" class="w3-image w3-round-large img" style="height:inherit;">
+            <br>
+            <div class="w3-center checkBox" style="display:none;"><paper-checkbox class="red paper-checkbox">Select</paper-checkbox></div>
+            <div class="w3-container w3-col s12">
+                <h4>${this.data.title}</h4>
+                <p class="w3-medium w3-left-align w3-text-grey w3-margin-left">${this.data.subTitle}</p>
+                <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom body" style="text-align: justify !important;"></p>
+                <div class="w3-center">
+                    <paper-button @click="${() => {window.location.href = "/single-article#" + this.data.id;}}" raised class="w3-indigo">open article</paper-button>
+                </div>
             </div>
         </div>
+        <!-- END OF SINGLE ROW ARTICLE SMALL SCREEN-->
     </div>
-    <!-- END OF SINGLE ROW ARTICLE LARGE MEDIUM SCREEN-->
-    <!-- SINGLE ROW ARTICLE SMALL SCREEN-->
-    <div class="w3-row-padding w3-section w3-stretch w3-center w3-card-4 w3-hide-medium w3-hide-large" style="padding-bottom:16px; margin-right: 16px; margin-left: 16px;">
-        <div class="w3-container w3-col s12">
-            <div class="loader" style="text-align:center!important;margin-top:32px;">
-                <paper-spinner active class="multi" style="width: 90px;height: 90px;margin-top: 32px;"></paper-spinner>
-            </div>
-            <div class="w3-margin" style="text-align:center!important;">
-                <img src="" crossorigin="anonymous" class="w3-image w3-round-large img" style="max-height:220px;">
-            </div>
-        </div>
-        <div class="w3-container w3-col s12">
-            <h4>${this.data.title}</h4>
-            <p class="w3-medium w3-left-align w3-text-grey w3-margin-left">${this.data.subTitle}</p>
-            <p class="w3-large w3-margin-left w3-margin-right w3-margin-bottom body" style="text-align: justify !important;"></p>
-            <div class="w3-center">
-                <paper-button @click="${() => {window.location.href = "/single-article#" + this.data.Id;}}" raised class="w3-indigo">open article</paper-button>
-            </div>
-        </div>
-    </div>
-    <!-- END OF SINGLE ROW ARTICLE SMALL SCREEN-->
     `;
     }
 
